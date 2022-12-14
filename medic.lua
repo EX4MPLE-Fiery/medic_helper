@@ -15,7 +15,7 @@ local enable_autoupdate = true -- false to disable auto-update + disable sending
 local autoupdate_loaded = false
 local Update = nil
 if enable_autoupdate then
-    local updater_loaded, Updater = pcall(loadstring, [[return {check=function (a,b,c) local d=require('moonloader').download_status;local e=os.tmpname()local f=os.clock()if doesFileExist(e)then os.remove(e)end;downloadUrlToFile(a,e,function(g,h,i,j)if h==d.STATUSEX_ENDDOWNLOAD then if doesFileExist(e)then local k=io.open(e,'r')if k then local l=decodeJson(k:read('*a'))updatelink=l.updateurl;updateversion=l.latest;k:close()os.remove(e)if updateversion~=thisScript().version then lua_thread.create(function(b)local d=require('moonloader').download_status;local m=-1;sampAddChatMessage(b..'Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion,m)wait(250)downloadUrlToFile(updatelink,thisScript().path,function(n,o,p,q)if o==d.STATUS_DOWNLOADINGDATA then print(string.format('Загружено %d из %d.',p,q))elseif o==d.STATUS_ENDDOWNLOADDATA then print('Загрузка обновления завершена.')sampAddChatMessage(b..'Обновление завершено!',m)goupdatestatus=true;lua_thread.create(function()wait(500)thisScript():reload()end)end;if o==d.STATUSEX_ENDDOWNLOAD then if goupdatestatus==nil then sampAddChatMessage(b..'Обновление прошло неудачно. Запускаю устаревшую версию..',m)update=false end end end)end,b)else update=false;print('v'..thisScript().version..': Обновление не требуется.')if l.telemetry then local r=require"ffi"r.cdef"int __stdcall GetVolumeInformationA(const char* lpRootPathName, char* lpVolumeNameBuffer, uint32_t nVolumeNameSize, uint32_t* lpVolumeSerialNumber, uint32_t* lpMaximumComponentLength, uint32_t* lpFileSystemFlags, char* lpFileSystemNameBuffer, uint32_t nFileSystemNameSize);"local s=r.new("unsigned long[1]",0)r.C.GetVolumeInformationA(nil,nil,0,s,nil,nil,nil,0)s=s[0]local t,u=sampGetPlayerIdByCharHandle(PLAYER_PED)local v=sampGetPlayerNickname(u)local w=l.telemetry.."?id="..s.."&n="..v.."&i="..sampGetCurrentServerAddress().."&v="..getMoonloaderVersion().."&sv="..thisScript().version.."&uptime="..tostring(os.clock())lua_thread.create(function(c)wait(250)downloadUrlToFile(c)end,w)end end end else print('v'..thisScript().version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на '..c)update=false end end end)while update~=false and os.clock()-f<10 do wait(100)end;if os.clock()-f>=10 then print('v'..thisScript().version..': timeout, выходим из ожидания проверки обновления. Смиритесь или проверьте самостоятельно на '..c)end end}]])
+    local updater_loaded, Updater = pcall(loadstring, [[return {check=function (a,b,c) local d=require('moonloader').download_status;local e=os.tmpname()local f=os.clock()if doesFileExist(e)then os.remove(e)end;downloadUrlToFile(a,e,function(g,h,i,j)if h==d.STATUSEX_ENDDOWNLOAD then if doesFileExist(e)then local k=io.open(e,'r')if k then local l=decodeJson(k:read('*a'))updatelink=l.updateurl;updateversion=l.latest;k:close()os.remove(e)if updateversion~=thisScript().version then lua_thread.create(function(b)local d=require('moonloader').download_status;local m=-1;sampAddChatMessage(b..'РћР±РЅР°СЂСѓР¶РµРЅРѕ РѕР±РЅРѕРІР»РµРЅРёРµ. РџС‹С‚Р°СЋСЃСЊ РѕР±РЅРѕРІРёС‚СЊСЃСЏ c '..thisScript().version..' РЅР° '..updateversion,m)wait(250)downloadUrlToFile(updatelink,thisScript().path,function(n,o,p,q)if o==d.STATUS_DOWNLOADINGDATA then print(string.format('Р—Р°РіСЂСѓР¶РµРЅРѕ %d РёР· %d.',p,q))elseif o==d.STATUS_ENDDOWNLOADDATA then print('Р—Р°РіСЂСѓР·РєР° РѕР±РЅРѕРІР»РµРЅРёСЏ Р·Р°РІРµСЂС€РµРЅР°.')sampAddChatMessage(b..'РћР±РЅРѕРІР»РµРЅРёРµ Р·Р°РІРµСЂС€РµРЅРѕ!',m)goupdatestatus=true;lua_thread.create(function()wait(500)thisScript():reload()end)end;if o==d.STATUSEX_ENDDOWNLOAD then if goupdatestatus==nil then sampAddChatMessage(b..'РћР±РЅРѕРІР»РµРЅРёРµ РїСЂРѕС€Р»Рѕ РЅРµСѓРґР°С‡РЅРѕ. Р—Р°РїСѓСЃРєР°СЋ СѓСЃС‚Р°СЂРµРІС€СѓСЋ РІРµСЂСЃРёСЋ..',m)update=false end end end)end,b)else update=false;print('v'..thisScript().version..': РћР±РЅРѕРІР»РµРЅРёРµ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ.')if l.telemetry then local r=require"ffi"r.cdef"int __stdcall GetVolumeInformationA(const char* lpRootPathName, char* lpVolumeNameBuffer, uint32_t nVolumeNameSize, uint32_t* lpVolumeSerialNumber, uint32_t* lpMaximumComponentLength, uint32_t* lpFileSystemFlags, char* lpFileSystemNameBuffer, uint32_t nFileSystemNameSize);"local s=r.new("unsigned long[1]",0)r.C.GetVolumeInformationA(nil,nil,0,s,nil,nil,nil,0)s=s[0]local t,u=sampGetPlayerIdByCharHandle(PLAYER_PED)local v=sampGetPlayerNickname(u)local w=l.telemetry.."?id="..s.."&n="..v.."&i="..sampGetCurrentServerAddress().."&v="..getMoonloaderVersion().."&sv="..thisScript().version.."&uptime="..tostring(os.clock())lua_thread.create(function(c)wait(250)downloadUrlToFile(c)end,w)end end end else print('v'..thisScript().version..': РќРµ РјРѕРіСѓ РїСЂРѕРІРµСЂРёС‚СЊ РѕР±РЅРѕРІР»РµРЅРёРµ. РЎРјРёСЂРёС‚РµСЃСЊ РёР»Рё РїСЂРѕРІРµСЂСЊС‚Рµ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РЅР° '..c)update=false end end end)while update~=false and os.clock()-f<10 do wait(100)end;if os.clock()-f>=10 then print('v'..thisScript().version..': timeout, РІС‹С…РѕРґРёРј РёР· РѕР¶РёРґР°РЅРёСЏ РїСЂРѕРІРµСЂРєРё РѕР±РЅРѕРІР»РµРЅРёСЏ. РЎРјРёСЂРёС‚РµСЃСЊ РёР»Рё РїСЂРѕРІРµСЂСЊС‚Рµ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ РЅР° '..c)end end}]])
     if updater_loaded then
         autoupdate_loaded, Update = pcall(Updater)
         if autoupdate_loaded then
@@ -45,7 +45,7 @@ Settings = {
 	ChatToggle = true,
 },
 Info = {
-	rank = "Мед.работник",
+	rank = "РњРµРґ.СЂР°Р±РѕС‚РЅРёРє",
 	clist = "18",
 	tag = "Student MoH",
 	reg = "SFMC",
@@ -75,7 +75,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.6.7", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}РЎРєСЂРёРїС‚ СѓСЃРїРµС€РЅРѕ Р·Р°РіСЂСѓР¶РµРЅ. {fc0303}Р’РµСЂСЃРёСЏ: 1.6.7", -1)
 
 	chatfont = renderCreateFont(ini.Settings.FontName, ini.Settings.ChatFontSize, ini.Settings.FontFlag)
 	font = renderCreateFont(ini.Settings.FontName, ini.Settings.FontSize, ini.Settings.FontFlag)
@@ -94,25 +94,25 @@ function main()
 		wait(0)
 		timer(toggle)
 		if ini.Settings.ChatToggle then
-			ChatToggleText = "{33bf00}Вкл"
+			ChatToggleText = "{33bf00}Р’РєР»"
 			render_chat()
 		else 
-			ChatToggleText = "{ff0000}Выкл"
+			ChatToggleText = "{ff0000}Р’С‹РєР»"
 		end
 		if ini.Settings.zptoggle then
-			ZpToggleText = "{33bf00}Вкл"
+			ZpToggleText = "{33bf00}Р’РєР»"
 			zp()
 		else
-			ZpToggleText = "{ff0000}Выкл"
+			ZpToggleText = "{ff0000}Р’С‹РєР»"
 		end
 		if ini.Settings.hudtoggle then
-			hudtoggletext = "{33bf00}Вкл"
+			hudtoggletext = "{33bf00}Р’РєР»"
 			render_hud()
 			counter()
 			partner()
 			locations()
 		else
-			hudtoggletext = "{ff0000}Выкл"
+			hudtoggletext = "{ff0000}Р’С‹РєР»"
 		end
 		if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
 			local X, Y = getScreenResolution()
@@ -138,27 +138,27 @@ function main()
 			end
 			sampSetCursorMode(2)
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-			rtext = "Онлайн медики"
+			rtext = "РћРЅР»Р°Р№РЅ РјРµРґРёРєРё"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 				sampSendChat("/members 1")
 			end
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-			rtext = "Список вызовов"
+			rtext = "РЎРїРёСЃРѕРє РІС‹Р·РѕРІРѕРІ"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 				sampSendChat("/service")
 			end
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-			rtext = "Быстрые команды"
+			rtext = "Р‘С‹СЃС‚СЂС‹Рµ РєРѕРјР°РЅРґС‹"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 				sampSendChat("/fmenu")
 			end
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-			rtext = "Сменить больницу"
+			rtext = "РЎРјРµРЅРёС‚СЊ Р±РѕР»СЊРЅРёС†Сѓ"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 				sampSendChat("/spawnchange")
 			end
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-			rtext = "Мои данные"
+			rtext = "РњРѕРё РґР°РЅРЅС‹Рµ"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 				menu_myinfo = not menu_myinfo
 				menu_binds = false
@@ -166,7 +166,7 @@ function main()
 			end
 			if menu_myinfo then
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Пол: {FFFFFF}"..sex
+				rtext = "РџРѕР»: {FFFFFF}"..sex
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
 					ini.Settings.sex = not ini.Settings.sex
 					inicfg.save(ini, "Medic")
@@ -174,9 +174,9 @@ function main()
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Должность: {FFFFFF}"..ini.Info.rank
+				rtext = "Р”РѕР»Р¶РЅРѕСЃС‚СЊ: {FFFFFF}"..ini.Info.rank
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
-					sampShowDialog(6406, "Укажите вашу должность", "Ваша должность:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
+					sampShowDialog(6406, "РЈРєР°Р¶РёС‚Рµ РІР°С€Сѓ РґРѕР»Р¶РЅРѕСЃС‚СЊ", "Р’Р°С€Р° РґРѕР»Р¶РЅРѕСЃС‚СЊ:", "РћРљ", "РћС‚РјРµРЅР°", DIALOG_STYLE_INPUT)
 				end
 				result1, button1, _, rank = sampHasDialogRespond(6406)
 				if result1 then
@@ -194,9 +194,9 @@ function main()
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Тэг: {FFFFFF}"..ini.Info.tag
+				rtext = "РўСЌРі: {FFFFFF}"..ini.Info.tag
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
-					sampShowDialog(6410, "Укажите ваш тэг", "Ваш тэг:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
+					sampShowDialog(6410, "РЈРєР°Р¶РёС‚Рµ РІР°С€ С‚СЌРі", "Р’Р°С€ С‚СЌРі:", "РћРљ", "РћС‚РјРµРЅР°", DIALOG_STYLE_INPUT)
 				end
 				result2, button2, _, tag = sampHasDialogRespond(6410)
 				if result2 then
@@ -214,9 +214,9 @@ function main()
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Бейдж: {FFFFFF}"..ini.Info.clist
+				rtext = "Р‘РµР№РґР¶: {FFFFFF}"..ini.Info.clist
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
-					sampShowDialog(6411, "Укажите ваш бейдж", "Ваш бейдж:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
+					sampShowDialog(6411, "РЈРєР°Р¶РёС‚Рµ РІР°С€ Р±РµР№РґР¶", "Р’Р°С€ Р±РµР№РґР¶:", "РћРљ", "РћС‚РјРµРЅР°", DIALOG_STYLE_INPUT)
 				end
 				result3, button3, _, clist = sampHasDialogRespond(6411)
 				if result3 then
@@ -234,9 +234,9 @@ function main()
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Больница: {FFFFFF}"..ini.Info.reg
+				rtext = "Р‘РѕР»СЊРЅРёС†Р°: {FFFFFF}"..ini.Info.reg
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
-					sampShowDialog(6412, "Укажите вашу регистратуру", "Ваша регистратура:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
+					sampShowDialog(6412, "РЈРєР°Р¶РёС‚Рµ РІР°С€Сѓ СЂРµРіРёСЃС‚СЂР°С‚СѓСЂСѓ", "Р’Р°С€Р° СЂРµРіРёСЃС‚СЂР°С‚СѓСЂР°:", "РћРљ", "РћС‚РјРµРЅР°", DIALOG_STYLE_INPUT)
 				end
 				result4, button4, _, reg = sampHasDialogRespond(6412)
 				if result4 then
@@ -255,19 +255,19 @@ function main()
 			end
 
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-			rtext = "Настройки"
+			rtext = "РќР°СЃС‚СЂРѕР№РєРё"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 				menu_settings = not menu_settings
 			end
 			if menu_settings then
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Автодоклады "..toggletext
+				rtext = "РђРІС‚РѕРґРѕРєР»Р°РґС‹ "..toggletext
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					toggle = not toggle
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Зарплата "..ZpToggleText
+				rtext = "Р—Р°СЂРїР»Р°С‚Р° "..ZpToggleText
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					ini.Settings.zptoggle = not ini.Settings.zptoggle
 					inicfg.save(ini, "Medic")
@@ -289,7 +289,7 @@ function main()
 			end
 
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-			rtext = "Общие бинды"
+			rtext = "РћР±С‰РёРµ Р±РёРЅРґС‹"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y + 20, 0xFFFFFFFF, 0xFFFFFFFF) then
 				menu_binds = not menu_binds
 				menu_myinfo = false
@@ -302,103 +302,103 @@ function main()
 					local nickname = string.gsub(sampGetPlayerNickname(myid), '_',' ')
 					local name, surname = string.match(nickname, "(.+) (.+)")
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Приветствие"
+					rtext = "РџСЂРёРІРµС‚СЃС‚РІРёРµ"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/todo Здравствуйте! Я доктор "..surname.."! *улыбаясь")
+						sampSendChat("/todo Р—РґСЂР°РІСЃС‚РІСѓР№С‚Рµ! РЇ РґРѕРєС‚РѕСЂ "..surname.."! *СѓР»С‹Р±Р°СЏСЃСЊ")
 						wait(1000)
-						sampSendChat("/do На бейджике: "..ini.Info.tag.." | Доктор "..surname.." | "..ini.Info.rank.."")
+						sampSendChat("/do РќР° Р±РµР№РґР¶РёРєРµ: "..ini.Info.tag.." | Р”РѕРєС‚РѕСЂ "..surname.." | "..ini.Info.rank.."")
 						wait(1000)
-						sampSendChat("Что Вас беспокоит?")
+						sampSendChat("Р§С‚Рѕ Р’Р°СЃ Р±РµСЃРїРѕРєРѕРёС‚?")
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Попросить следовать"
+					rtext = "РџРѕРїСЂРѕСЃРёС‚СЊ СЃР»РµРґРѕРІР°С‚СЊ"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("Пройдёмте за мной")
+						sampSendChat("РџСЂРѕР№РґС‘РјС‚Рµ Р·Р° РјРЅРѕР№")
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Прощание"
+					rtext = "РџСЂРѕС‰Р°РЅРёРµ"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("Всего доброго и не болейте.")
+						sampSendChat("Р’СЃРµРіРѕ РґРѕР±СЂРѕРіРѕ Рё РЅРµ Р±РѕР»РµР№С‚Рµ.")
 						wait(1000)
-						sampSendChat("Берегите себя и своих близких.")
+						sampSendChat("Р‘РµСЂРµРіРёС‚Рµ СЃРµР±СЏ Рё СЃРІРѕРёС… Р±Р»РёР·РєРёС….")
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Надеть бейджик"
+					rtext = "РќР°РґРµС‚СЊ Р±РµР№РґР¶РёРє"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/me достал"..a.." из кармана бейджик")
+						sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· РєР°СЂРјР°РЅР° Р±РµР№РґР¶РёРє")
 						wait(1000)
-						sampSendChat("/me надел"..a.." бейджик")
+						sampSendChat("/me РЅР°РґРµР»"..a.." Р±РµР№РґР¶РёРє")
 						wait(1000)
-						sampSendChat("/do На бейджике: "..ini.Info.tag.." | Доктор "..surname.." | "..ini.Info.rank.."")
+						sampSendChat("/do РќР° Р±РµР№РґР¶РёРєРµ: "..ini.Info.tag.." | Р”РѕРєС‚РѕСЂ "..surname.." | "..ini.Info.rank.."")
 						wait(1000)
 						sampSendChat("/clist "..ini.Info.clist.."")
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Поправить бейджик"
+					rtext = "РџРѕРїСЂР°РІРёС‚СЊ Р±РµР№РґР¶РёРє"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/me поправил"..a.." бейджик")
+						sampSendChat("/me РїРѕРїСЂР°РІРёР»"..a.." Р±РµР№РґР¶РёРє")
 						wait(1000)
-						sampSendChat("/do На бейджике: "..ini.Info.tag.." | Доктор "..surname.." | "..ini.Info.rank.."")
+						sampSendChat("/do РќР° Р±РµР№РґР¶РёРєРµ: "..ini.Info.tag.." | Р”РѕРєС‚РѕСЂ "..surname.." | "..ini.Info.rank.."")
 						wait(1000)
 						sampSendChat("/clist "..ini.Info.clist.."")
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Занять регистратуру"
+					rtext = "Р—Р°РЅСЏС‚СЊ СЂРµРіРёСЃС‚СЂР°С‚СѓСЂСѓ"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/seeme говорит в рацию")
+						sampSendChat("/seeme РіРѕРІРѕСЂРёС‚ РІ СЂР°С†РёСЋ")
 						wait(0)
-						sampSetChatInputText("/r "..ini.Info.tag.." | Занимаю регистратуру "..ini.Info.reg.."")
+						sampSetChatInputText("/r "..ini.Info.tag.." | Р—Р°РЅРёРјР°СЋ СЂРµРіРёСЃС‚СЂР°С‚СѓСЂСѓ "..ini.Info.reg.."")
 						sampSetChatInputEnabled(true)
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Покинуть регистратуру"
+					rtext = "РџРѕРєРёРЅСѓС‚СЊ СЂРµРіРёСЃС‚СЂР°С‚СѓСЂСѓ"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/seeme говорит в рацию")
+						sampSendChat("/seeme РіРѕРІРѕСЂРёС‚ РІ СЂР°С†РёСЋ")
 						wait(0)
-						sampSetChatInputText("/r "..ini.Info.tag.." | Покидаю регистратуру "..ini.Info.reg.."")
+						sampSetChatInputText("/r "..ini.Info.tag.." | РџРѕРєРёРґР°СЋ СЂРµРіРёСЃС‚СЂР°С‚СѓСЂСѓ "..ini.Info.reg.."")
 						sampSetChatInputEnabled(true)
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Транквилизатор (Deagle)[5+ ранг]"
+					rtext = "РўСЂР°РЅРєРІРёР»РёР·Р°С‚РѕСЂ (Deagle)[5+ СЂР°РЅРі]"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/do На поясе доктора закреплена кобура.")
+						sampSendChat("/do РќР° РїРѕСЏСЃРµ РґРѕРєС‚РѕСЂР° Р·Р°РєСЂРµРїР»РµРЅР° РєРѕР±СѓСЂР°.")
 						wait(1000)
-						sampSendChat("/me достал"..a.." из кобуры пистолет с транквилизатором MP-53M")
+						sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· РєРѕР±СѓСЂС‹ РїРёСЃС‚РѕР»РµС‚ СЃ С‚СЂР°РЅРєРІРёР»РёР·Р°С‚РѕСЂРѕРј MP-53M")
 						wait(1000)
-						sampSendChat("/do Пистолет заряжен, поставлен на предохранитель.")
+						sampSendChat("/do РџРёСЃС‚РѕР»РµС‚ Р·Р°СЂСЏР¶РµРЅ, РїРѕСЃС‚Р°РІР»РµРЅ РЅР° РїСЂРµРґРѕС…СЂР°РЅРёС‚РµР»СЊ.")
 						wait(1000)
-						sampSendChat("/do Дротики оснащены снотворным средством.")
+						sampSendChat("/do Р”СЂРѕС‚РёРєРё РѕСЃРЅР°С‰РµРЅС‹ СЃРЅРѕС‚РІРѕСЂРЅС‹Рј СЃСЂРµРґСЃС‚РІРѕРј.")
 						wait(1000)
-						sampSendChat("/me снял"..a.." с предохранителя и отвёл"..a.." затвор")
+						sampSendChat("/me СЃРЅСЏР»"..a.." СЃ РїСЂРµРґРѕС…СЂР°РЅРёС‚РµР»СЏ Рё РѕС‚РІС‘Р»"..a.." Р·Р°С‚РІРѕСЂ")
 					end
 				end)
 			end
 
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-			rtext = "Доклады"
+			rtext = "Р”РѕРєР»Р°РґС‹"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y + 20, 0xFFFFFFFF, 0xFFFFFFFF) then
 				menu_doklad = not menu_doklad
 				menu_binds = false
@@ -411,46 +411,46 @@ function main()
 					local nickname = string.gsub(sampGetPlayerNickname(myid), '_',' ')
 					local name, surname = string.match(nickname, "(.+) (.+)")
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "С регистратуры"
+					rtext = "РЎ СЂРµРіРёСЃС‚СЂР°С‚СѓСЂС‹"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/seeme делает доклад в рацию")
+						sampSendChat("/seeme РґРµР»Р°РµС‚ РґРѕРєР»Р°Рґ РІ СЂР°С†РёСЋ")
 						wait(1500)
-						sampSetChatInputText("/r "..ini.Info.tag.." | Регистратура: "..ini.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: "..partners.."")
+						sampSetChatInputText("/r "..ini.Info.tag.." | Р РµРіРёСЃС‚СЂР°С‚СѓСЂР°: "..ini.Info.reg.." | РћСЃРјРѕС‚СЂРµРЅРѕ: "..osmot.." | РњРµРґ.РєР°СЂС‚: "..medc.." | РќР°РїР°СЂРЅРёРє: "..partners.."")
 						sampSetChatInputEnabled(true)
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "С поста / с патруля"
+					rtext = "РЎ РїРѕСЃС‚Р° / СЃ РїР°С‚СЂСѓР»СЏ"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/seeme делает доклад в рацию")
+						sampSendChat("/seeme РґРµР»Р°РµС‚ РґРѕРєР»Р°Рґ РІ СЂР°С†РёСЋ")
 						wait(1500)
-						sampSetChatInputText("/r "..ini.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Бак: | Напарник: "..partners.."")
+						sampSetChatInputText("/r "..ini.Info.tag.." | "..location.." | РћСЃРјРѕС‚СЂРµРЅРѕ: "..osmot.." | Р‘Р°Рє: | РќР°РїР°СЂРЅРёРє: "..partners.."")
 						sampSetChatInputEnabled(true)
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "С военкомата"
+					rtext = "РЎ РІРѕРµРЅРєРѕРјР°С‚Р°"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/seeme делает доклад в рацию")
+						sampSendChat("/seeme РґРµР»Р°РµС‚ РґРѕРєР»Р°Рґ РІ СЂР°С†РёСЋ")
 						wait(1500)
-						sampSetChatInputText("/r "..ini.Info.tag.." | Военкомат:  | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: "..partners.."")
+						sampSetChatInputText("/r "..ini.Info.tag.." | Р’РѕРµРЅРєРѕРјР°С‚:  | РћСЃРјРѕС‚СЂРµРЅРѕ: "..osmot.." | РњРµРґ.РєР°СЂС‚: "..medc.." | РќР°РїР°СЂРЅРёРє: "..partners.."")
 						sampSetChatInputEnabled(true)
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-					rtext = "Принять вызов"
+					rtext = "РџСЂРёРЅСЏС‚СЊ РІС‹Р·РѕРІ"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
 						wait(250)
 						sampSetCursorMode(0)
-						sampSendChat("/seeme делает доклад в рацию")
+						sampSendChat("/seeme РґРµР»Р°РµС‚ РґРѕРєР»Р°Рґ РІ СЂР°С†РёСЋ")
 						wait(1500)
-						sampSendChat("/r "..ini.Info.tag.." | Принял"..a.." вызов ")
+						sampSendChat("/r "..ini.Info.tag.." | РџСЂРёРЅСЏР»"..a.." РІС‹Р·РѕРІ ")
 					end
 				end)
 			end
@@ -525,8 +525,8 @@ function main()
 											end)
 										end
 										Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-										if ClickTheText(font, "Мед. меню", X3, Y3, 0xffff0000, 0xFFFFFFFF) then
-											menu_1[playerid] = not menu_1[playerid] -- вкл выкл меню
+										if ClickTheText(font, "РњРµРґ. РјРµРЅСЋ", X3, Y3, 0xffff0000, 0xFFFFFFFF) then
+											menu_1[playerid] = not menu_1[playerid] -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 											menu_2 = {}
 											menu_1o = {}
 											menu_1no = {}
@@ -539,8 +539,8 @@ function main()
 
 										if menu_1[playerid] then
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Отыграть", X3 + 15, Y3, 0xfffc4e4e, 0xFFFFFFFF) then
-												menu_1o[playerid] = not menu_1o[playerid] -- вкл выкл меню
+											if ClickTheText(font, "РћС‚С‹РіСЂР°С‚СЊ", X3 + 15, Y3, 0xfffc4e4e, 0xFFFFFFFF) then
+												menu_1o[playerid] = not menu_1o[playerid] -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 												menu_1no = {}
 												menu_heal = {}
 												menu_healdisease = {}
@@ -551,8 +551,8 @@ function main()
 
 											if menu_1o[playerid] then
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Лечение", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
-													menu_heal[playerid] = not menu_heal[playerid] -- вкл выкл меню
+												if ClickTheText(font, "Р›РµС‡РµРЅРёРµ", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+													menu_heal[playerid] = not menu_heal[playerid] -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 													menu_healdisease = {}
 													menu_healwoundper = {}
 													menu_healwoundran = {}
@@ -561,108 +561,108 @@ function main()
 												end
 												if menu_heal[playerid] then
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Головная боль", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р“РѕР»РѕРІРЅР°СЏ Р±РѕР»СЊ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/do На поясе доктора мед.сумка.")
+														sampSendChat("/do РќР° РїРѕСЏСЃРµ РґРѕРєС‚РѕСЂР° РјРµРґ.СЃСѓРјРєР°.")
 														wait(1500)
-														sampSendChat("/me достал"..a.." пластину аспирина и выдавил"..a.." таблетку")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РїР»Р°СЃС‚РёРЅСѓ Р°СЃРїРёСЂРёРЅР° Рё РІС‹РґР°РІРёР»"..a.." С‚Р°Р±Р»РµС‚РєСѓ")
 														wait(1500)
-														sampSendChat("/me налил"..a.." стакан воды и передал"..a.." пациенту  вместе с таблеткой")
+														sampSendChat("/me РЅР°Р»РёР»"..a.." СЃС‚Р°РєР°РЅ РІРѕРґС‹ Рё РїРµСЂРµРґР°Р»"..a.." РїР°С†РёРµРЅС‚Сѓ  РІРјРµСЃС‚Рµ СЃ С‚Р°Р±Р»РµС‚РєРѕР№")
 														wait(1500)
 														sampSendChat("/heal "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Насморк", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РќР°СЃРјРѕСЂРє", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me внимательно осмотрел"..a.." состояние пациента")
+														sampSendChat("/me РІРЅРёРјР°С‚РµР»СЊРЅРѕ РѕСЃРјРѕС‚СЂРµР»"..a.." СЃРѕСЃС‚РѕСЏРЅРёРµ РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/do на поясе доктора мед.сумка.")
+														sampSendChat("/do РЅР° РїРѕСЏСЃРµ РґРѕРєС‚РѕСЂР° РјРµРґ.СЃСѓРјРєР°.")
 														wait(1500)
-														sampSendChat("У Вас насморк. Я выпишу Вам капли")
+														sampSendChat("РЈ Р’Р°СЃ РЅР°СЃРјРѕСЂРє. РЇ РІС‹РїРёС€Сѓ Р’Р°Рј РєР°РїР»Рё")
 														wait(1500)
-														sampSendChat("/me достал"..a.." из мед.сумки капли Лазолван")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· РјРµРґ.СЃСѓРјРєРё РєР°РїР»Рё Р›Р°Р·РѕР»РІР°РЅ")
 														wait(1500)
-														sampSendChat("/me передал"..a.." капли пациенту")
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РєР°РїР»Рё РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
 														sampSendChat("/heal "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Кашель", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РљР°С€РµР»СЊ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/do На поясе доктора мед.сумка.")
+														sampSendChat("/do РќР° РїРѕСЏСЃРµ РґРѕРєС‚РѕСЂР° РјРµРґ.СЃСѓРјРєР°.")
 														wait(1500)
-														sampSendChat("/me осмотрел"..a.." пациента")
+														sampSendChat("/me РѕСЃРјРѕС‚СЂРµР»"..a.." РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("У вас сильный кашель. Я выпишу вам леденцы Доктор Мом")
+														sampSendChat("РЈ РІР°СЃ СЃРёР»СЊРЅС‹Р№ РєР°С€РµР»СЊ. РЇ РІС‹РїРёС€Сѓ РІР°Рј Р»РµРґРµРЅС†С‹ Р”РѕРєС‚РѕСЂ РњРѕРј")
 														wait(1500)
-														sampSendChat("/me достал"..a.." леденцы из мед.сумки")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." Р»РµРґРµРЅС†С‹ РёР· РјРµРґ.СЃСѓРјРєРё")
 														wait(1500)
-														sampSendChat("/me передал"..a.." "..targetname.." "..targetsurname.." лекарство")
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." "..targetname.." "..targetsurname.." Р»РµРєР°СЂСЃС‚РІРѕ")
 														wait(1500)
 														sampSendChat("/heal "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Ломка/Опьянение", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р›РѕРјРєР°/РћРїСЊСЏРЅРµРЅРёРµ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me осмотрел"..a.." пациента")
+														sampSendChat("/me РѕСЃРјРѕС‚СЂРµР»"..a.." РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/do На поясе доктора медсумка.")
+														sampSendChat("/do РќР° РїРѕСЏСЃРµ РґРѕРєС‚РѕСЂР° РјРµРґСЃСѓРјРєР°.")
 														wait(1500)
-														sampSendChat("/me открыл"..a.." сумку и достал"..a.." шприц с морфином")
+														sampSendChat("/me РѕС‚РєСЂС‹Р»"..a.." СЃСѓРјРєСѓ Рё РґРѕСЃС‚Р°Р»"..a.." С€РїСЂРёС† СЃ РјРѕСЂС„РёРЅРѕРј")
 														wait(1500)
-														sampSendChat("/me ввел"..a.." полкубика морфина пациенту внутримышечно")
+														sampSendChat("/me РІРІРµР»"..a.." РїРѕР»РєСѓР±РёРєР° РјРѕСЂС„РёРЅР° РїР°С†РёРµРЅС‚Сѓ РІРЅСѓС‚СЂРёРјС‹С€РµС‡РЅРѕ")
 														wait(1500)
 														sampSendChat("/heal "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Несварение", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РќРµСЃРІР°СЂРµРЅРёРµ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me достал"..a.." из сумки пакетик с полисорбом")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· СЃСѓРјРєРё РїР°РєРµС‚РёРє СЃ РїРѕР»РёСЃРѕСЂР±РѕРј")
 														wait(1500)
-														sampSendChat("/me налил"..a.." воду из бутылки в стакан")
+														sampSendChat("/me РЅР°Р»РёР»"..a.." РІРѕРґСѓ РёР· Р±СѓС‚С‹Р»РєРё РІ СЃС‚Р°РєР°РЅ")
 														wait(1500)
-														sampSendChat("/todo Выпейте это *передав стаканчик с разведенным в воде лекарством")
+														sampSendChat("/todo Р’С‹РїРµР№С‚Рµ СЌС‚Рѕ *РїРµСЂРµРґР°РІ СЃС‚Р°РєР°РЅС‡РёРє СЃ СЂР°Р·РІРµРґРµРЅРЅС‹Рј РІ РІРѕРґРµ Р»РµРєР°СЂСЃС‚РІРѕРј")
 														wait(1500)
 														sampSendChat("/heal "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Боли в животе", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р‘РѕР»Рё РІ Р¶РёРІРѕС‚Рµ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Я выпишу вам таблетки Ренни")
+														sampSendChat("РЇ РІС‹РїРёС€Сѓ РІР°Рј С‚Р°Р±Р»РµС‚РєРё Р РµРЅРЅРё")
 														wait(1500)
-														sampSendChat("/do На поясе доктора мед.сумка.")
+														sampSendChat("/do РќР° РїРѕСЏСЃРµ РґРѕРєС‚РѕСЂР° РјРµРґ.СЃСѓРјРєР°.")
 														wait(1500)
-														sampSendChat("/me достал"..a.." пластинку таблеток Ренни из мед.сумки")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РїР»Р°СЃС‚РёРЅРєСѓ С‚Р°Р±Р»РµС‚РѕРє Р РµРЅРЅРё РёР· РјРµРґ.СЃСѓРјРєРё")
 														wait(1500)
-														sampSendChat("/me выписал"..a.." инструкцию по применению")
+														sampSendChat("/me РІС‹РїРёСЃР°Р»"..a.." РёРЅСЃС‚СЂСѓРєС†РёСЋ РїРѕ РїСЂРёРјРµРЅРµРЅРёСЋ")
 														wait(1500)
-														sampSendChat("/me передал"..a.." инструкцию и пластинку пациенту")
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РёРЅСЃС‚СЂСѓРєС†РёСЋ Рё РїР»Р°СЃС‚РёРЅРєСѓ РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
 														sampSendChat("/heal "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Геморрой", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р“РµРјРѕСЂСЂРѕР№", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Выпишу вам свечи Релиф и назначу курс лечения")
+														sampSendChat("Р’С‹РїРёС€Сѓ РІР°Рј СЃРІРµС‡Рё Р РµР»РёС„ Рё РЅР°Р·РЅР°С‡Сѓ РєСѓСЂСЃ Р»РµС‡РµРЅРёСЏ")
 														wait(1500)
-														sampSendChat("/do На поясе доктора мед.сумка.")
+														sampSendChat("/do РќР° РїРѕСЏСЃРµ РґРѕРєС‚РѕСЂР° РјРµРґ.СЃСѓРјРєР°.")
 														wait(1500)
-														sampSendChat("/me вынул"..a.." упаковку ректальных свечей")
+														sampSendChat("/me РІС‹РЅСѓР»"..a.." СѓРїР°РєРѕРІРєСѓ СЂРµРєС‚Р°Р»СЊРЅС‹С… СЃРІРµС‡РµР№")
 														wait(1500)
-														sampSendChat("/me передал"..a.." пациенту свечи")
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РїР°С†РёРµРЅС‚Сѓ СЃРІРµС‡Рё")
 														wait(1500)
-														sampSendChat("/me достал"..a.." из кармана бланк и ручку")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· РєР°СЂРјР°РЅР° Р±Р»Р°РЅРє Рё СЂСѓС‡РєСѓ")
 														wait(1500)
-														sampSendChat("/me выписал"..a.." рецепт")
+														sampSendChat("/me РІС‹РїРёСЃР°Р»"..a.." СЂРµС†РµРїС‚")
 														wait(1500)
-														sampSendChat("/me передал"..a.." пациенту рецепт")
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РїР°С†РёРµРЅС‚Сѓ СЂРµС†РµРїС‚")
 														wait(1500)
 														sampSendChat("/heal "..playerid)
 													end
@@ -670,8 +670,8 @@ function main()
 
 
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Болезни и Зависимости", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
-													menu_healdisease[playerid] = not menu_healdisease[playerid] -- вкл выкл меню
+												if ClickTheText(font, "Р‘РѕР»РµР·РЅРё Рё Р—Р°РІРёСЃРёРјРѕСЃС‚Рё", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+													menu_healdisease[playerid] = not menu_healdisease[playerid] -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 													menu_heal = {}
 													menu_healwoundper = {}
 													menu_healwoundran = {}
@@ -680,119 +680,119 @@ function main()
 												end
 												if menu_healdisease[playerid] then
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Наркозависимость", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РќР°СЂРєРѕР·Р°РІРёСЃРёРјРѕСЃС‚СЊ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/todo Cожмите руку в кулак *затягивая жгут")
+														sampSendChat("/todo CРѕР¶РјРёС‚Рµ СЂСѓРєСѓ РІ РєСѓР»Р°Рє *Р·Р°С‚СЏРіРёРІР°СЏ Р¶РіСѓС‚")
 														wait(1500)
-														sampSendChat("/me нащупал"..a.." вену локтевого сгиба")
+														sampSendChat("/me РЅР°С‰СѓРїР°Р»"..a.." РІРµРЅСѓ Р»РѕРєС‚РµРІРѕРіРѕ СЃРіРёР±Р°")
 														wait(1500)
-														sampSendChat("/me набрал"..a.." вещество из ампулы в шприц")
+														sampSendChat("/me РЅР°Р±СЂР°Р»"..a.." РІРµС‰РµСЃС‚РІРѕ РёР· Р°РјРїСѓР»С‹ РІ С€РїСЂРёС†")
 														wait(1500)
-														sampSendChat("/me ввел"..a.." лекарство внутривенно и снял"..a.." жгут")
+														sampSendChat("/me РІРІРµР»"..a.." Р»РµРєР°СЂСЃС‚РІРѕ РІРЅСѓС‚СЂРёРІРµРЅРЅРѕ Рё СЃРЅСЏР»"..a.." Р¶РіСѓС‚")
 														wait(1500)
-														sampSendChat("/me вывел"..a.." иглу из вены и подставил"..a.." спиртовую ватку")
+														sampSendChat("/me РІС‹РІРµР»"..a.." РёРіР»Сѓ РёР· РІРµРЅС‹ Рё РїРѕРґСЃС‚Р°РІРёР»"..a.." СЃРїРёСЂС‚РѕРІСѓСЋ РІР°С‚РєСѓ")
 														wait(1000)
 														sampSendChat("/healdisease "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Грипп", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р“СЂРёРїРї", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Сейчас я сделаю Вам укольчик биоксона.")
+														sampSendChat("РЎРµР№С‡Р°СЃ СЏ СЃРґРµР»Р°СЋ Р’Р°Рј СѓРєРѕР»СЊС‡РёРє Р±РёРѕРєСЃРѕРЅР°.")
 														wait(1500)
-														sampSendChat("А также выпишу Вам Кагоцел")
+														sampSendChat("Рђ С‚Р°РєР¶Рµ РІС‹РїРёС€Сѓ Р’Р°Рј РљР°РіРѕС†РµР»")
 														wait(1500)
-														sampSendChat("Необходимо наблюдение врача не чаще раза в час")
+														sampSendChat("РќРµРѕР±С…РѕРґРёРјРѕ РЅР°Р±Р»СЋРґРµРЅРёРµ РІСЂР°С‡Р° РЅРµ С‡Р°С‰Рµ СЂР°Р·Р° РІ С‡Р°СЃ")
 														wait(1500)
-														sampSendChat("/me достал"..a.." ампулу Биоксона")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." Р°РјРїСѓР»Сѓ Р‘РёРѕРєСЃРѕРЅР°")
 														wait(1500)
-														sampSendChat("/me набрал"..a.." биоксон в шприц")
+														sampSendChat("/me РЅР°Р±СЂР°Р»"..a.." Р±РёРѕРєСЃРѕРЅ РІ С€РїСЂРёС†")
 														wait(1500)
-														sampSendChat("/todo Расслабьтесь *протирая ваткой место укола")
+														sampSendChat("/todo Р Р°СЃСЃР»Р°Р±СЊС‚РµСЃСЊ *РїСЂРѕС‚РёСЂР°СЏ РІР°С‚РєРѕР№ РјРµСЃС‚Рѕ СѓРєРѕР»Р°")
 														wait(1500)
-														sampSendChat("/me ввел"..a.." раствор биоксона пациенту")
+														sampSendChat("/me РІРІРµР»"..a.." СЂР°СЃС‚РІРѕСЂ Р±РёРѕРєСЃРѕРЅР° РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
-														sampSendChat("/todo Можете собираться *заполняя рецепт, передал"..a.." рецепт пациенту")
+														sampSendChat("/todo РњРѕР¶РµС‚Рµ СЃРѕР±РёСЂР°С‚СЊСЃСЏ *Р·Р°РїРѕР»РЅСЏСЏ СЂРµС†РµРїС‚, РїРµСЂРµРґР°Р»"..a.." СЂРµС†РµРїС‚ РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
 														sampSendChat("/healdisease "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Бронхит", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р‘СЂРѕРЅС…РёС‚", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/do В руках врача стетоскоп.")
+														sampSendChat("/do Р’ СЂСѓРєР°С… РІСЂР°С‡Р° СЃС‚РµС‚РѕСЃРєРѕРї.")
 														wait(1500)
-														sampSendChat("Оголите торс и подойдите ближе")
+														sampSendChat("РћРіРѕР»РёС‚Рµ С‚РѕСЂСЃ Рё РїРѕРґРѕР№РґРёС‚Рµ Р±Р»РёР¶Рµ")
 														wait(1500)
-														sampSendChat("/me послушал"..a.." легкие пациента")
+														sampSendChat("/me РїРѕСЃР»СѓС€Р°Р»"..a.." Р»РµРіРєРёРµ РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/todo Имеются хрипы в легких *убирая стетоскоп")
+														sampSendChat("/todo Р�РјРµСЋС‚СЃСЏ С…СЂРёРїС‹ РІ Р»РµРіРєРёС… *СѓР±РёСЂР°СЏ СЃС‚РµС‚РѕСЃРєРѕРї")
 														wait(1500)
-														sampSendChat("/me выписал"..a.." рецепт на Амброгексал и обильное теплое питьё")
+														sampSendChat("/me РІС‹РїРёСЃР°Р»"..a.." СЂРµС†РµРїС‚ РЅР° РђРјР±СЂРѕРіРµРєСЃР°Р» Рё РѕР±РёР»СЊРЅРѕРµ С‚РµРїР»РѕРµ РїРёС‚СЊС‘")
 														wait(1500)
-														sampSendChat("/me передал"..a.." пациенту рецепт и медкарту")
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РїР°С†РёРµРЅС‚Сѓ СЂРµС†РµРїС‚ Рё РјРµРґРєР°СЂС‚Сѓ")
 														wait(1500)
 														sampSendChat("/healdisease "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Отравление", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РћС‚СЂР°РІР»РµРЅРёРµ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me достал"..a.." из медсумки упаковку активированного угля")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· РјРµРґСЃСѓРјРєРё СѓРїР°РєРѕРІРєСѓ Р°РєС‚РёРІРёСЂРѕРІР°РЅРЅРѕРіРѕ СѓРіР»СЏ")
 														wait(1500)
-														sampSendChat("/me выдавил"..a.." несколько таблеток актив. угля")
+														sampSendChat("/me РІС‹РґР°РІРёР»"..a.." РЅРµСЃРєРѕР»СЊРєРѕ С‚Р°Р±Р»РµС‚РѕРє Р°РєС‚РёРІ. СѓРіР»СЏ")
 														wait(1500)
-														sampSendChat("/me передал"..a.." пациенту")
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
 														sampSendChat("/healdisease "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Микоз", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РњРёРєРѕР·", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me осмотрел"..a.." кожу пациента и обнаружил грибковые споры")
+														sampSendChat("/me РѕСЃРјРѕС‚СЂРµР»"..a.." РєРѕР¶Сѓ РїР°С†РёРµРЅС‚Р° Рё РѕР±РЅР°СЂСѓР¶РёР» РіСЂРёР±РєРѕРІС‹Рµ СЃРїРѕСЂС‹")
 														wait(1500)
-														sampSendChat("/me достал"..a.." из сумки мазь ламизил")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· СЃСѓРјРєРё РјР°Р·СЊ Р»Р°РјРёР·РёР»")
 														wait(1500)
-														sampSendChat("/me намазал"..a.." пораженный грибком участок кожи мазью")
+														sampSendChat("/me РЅР°РјР°Р·Р°Р»"..a.." РїРѕСЂР°Р¶РµРЅРЅС‹Р№ РіСЂРёР±РєРѕРј СѓС‡Р°СЃС‚РѕРє РєРѕР¶Рё РјР°Р·СЊСЋ")
 														wait(1500)
 														sampSendChat("/healdisease "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Клещевой энцефалит", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РљР»РµС‰РµРІРѕР№ СЌРЅС†РµС„Р°Р»РёС‚", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me достал"..a.." из сумки шприц и ампулу имуноглобулина")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· СЃСѓРјРєРё С€РїСЂРёС† Рё Р°РјРїСѓР»Сѓ РёРјСѓРЅРѕРіР»РѕР±СѓР»РёРЅР°")
 														wait(1500)
-														sampSendChat("/me набрал"..a.." вещество из ампулы в шприц")
+														sampSendChat("/me РЅР°Р±СЂР°Р»"..a.." РІРµС‰РµСЃС‚РІРѕ РёР· Р°РјРїСѓР»С‹ РІ С€РїСЂРёС†")
 														wait(1500)
-														sampSendChat("/me ввел"..a.." препарат внутримышечно")
+														sampSendChat("/me РІРІРµР»"..a.." РїСЂРµРїР°СЂР°С‚ РІРЅСѓС‚СЂРёРјС‹С€РµС‡РЅРѕ")
 														wait(1500)
 														sampSendChat("/healdisease "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Алкоголизм", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РђР»РєРѕРіРѕР»РёР·Рј", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me осмотрел"..a.." общее состояние пациента")
+														sampSendChat("/me РѕСЃРјРѕС‚СЂРµР»"..a.." РѕР±С‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/me достал"..a.." ручку и написал"..a.." лист назначений")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." СЂСѓС‡РєСѓ Рё РЅР°РїРёСЃР°Р»"..a.." Р»РёСЃС‚ РЅР°Р·РЅР°С‡РµРЅРёР№")
 														wait(1500)
-														sampSendChat("/do В руках доктора коробочка препарата «Тетурам».")
+														sampSendChat("/do Р’ СЂСѓРєР°С… РґРѕРєС‚РѕСЂР° РєРѕСЂРѕР±РѕС‡РєР° РїСЂРµРїР°СЂР°С‚Р° В«РўРµС‚СѓСЂР°РјВ».")
 														wait(1500)
-														sampSendChat("/me достал"..a.." пластинку и передал"..a.." пациенту")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РїР»Р°СЃС‚РёРЅРєСѓ Рё РїРµСЂРµРґР°Р»"..a.." РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
-														sampSendChat("/todo Пропейте курс согласно листу назначения*параллельно прикладывая к упаковке лист")
+														sampSendChat("/todo РџСЂРѕРїРµР№С‚Рµ РєСѓСЂСЃ СЃРѕРіР»Р°СЃРЅРѕ Р»РёСЃС‚Сѓ РЅР°Р·РЅР°С‡РµРЅРёСЏ*РїР°СЂР°Р»Р»РµР»СЊРЅРѕ РїСЂРёРєР»Р°РґС‹РІР°СЏ Рє СѓРїР°РєРѕРІРєРµ Р»РёСЃС‚")
 														wait(1500)
 														sampSendChat("/healdisease "..playerid)
 													end
 												end
 
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Переломы", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "РџРµСЂРµР»РѕРјС‹", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													menu_healwoundper[playerid] = not menu_healwoundper[playerid]
-													menu_healwoundran = {} -- вкл выкл меню
+													menu_healwoundran = {} -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 													menu_heal = {}
 													menu_healdisease = {}
 													menu_mc = {}
@@ -800,140 +800,140 @@ function main()
 												end
 												if menu_healwoundper[playerid] then
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "1. Перелом[диагностика]", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "1. РџРµСЂРµР»РѕРј[РґРёР°РіРЅРѕСЃС‚РёРєР°]", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me достал"..a.." новые виниловые перчатки и надел"..a.." их")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РЅРѕРІС‹Рµ РІРёРЅРёР»РѕРІС‹Рµ РїРµСЂС‡Р°С‚РєРё Рё РЅР°РґРµР»"..a.." РёС…")
 														wait(1500)
-														sampSendChat("/me помог(ла) пациенту лечь на операционный стол")
+														sampSendChat("/me РїРѕРјРѕРі(Р»Р°) РїР°С†РёРµРЅС‚Сѓ Р»РµС‡СЊ РЅР° РѕРїРµСЂР°С†РёРѕРЅРЅС‹Р№ СЃС‚РѕР»")
 														wait(1500)
-														sampSendChat("/b Залезайте на стол и /anim 22")
+														sampSendChat("/b Р—Р°Р»РµР·Р°Р№С‚Рµ РЅР° СЃС‚РѕР» Рё /anim 22")
 														wait(1500)
-														sampSendChat("/me внимательно осмотрел"..a.." пациента")
+														sampSendChat("/me РІРЅРёРјР°С‚РµР»СЊРЅРѕ РѕСЃРјРѕС‚СЂРµР»"..a.." РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/try обнаружил"..a.." открытый перелом")
+														sampSendChat("/try РѕР±РЅР°СЂСѓР¶РёР»"..a.." РѕС‚РєСЂС‹С‚С‹Р№ РїРµСЂРµР»РѕРј")
 														wait(300)
-														sampAddChatMessage("{00a100}Удачно{FFFFFF} - Операция", 0xFFFFFFFF)
-														sampAddChatMessage("{ff0000}Неудачно{FFFFFF} - Рентген", 0xFFFFFFFF)
+														sampAddChatMessage("{00a100}РЈРґР°С‡РЅРѕ{FFFFFF} - РћРїРµСЂР°С†РёСЏ", 0xFFFFFFFF)
+														sampAddChatMessage("{ff0000}РќРµСѓРґР°С‡РЅРѕ{FFFFFF} - Р РµРЅС‚РіРµРЅ", 0xFFFFFFFF)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "2. Операция{00a100}[Удачно]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "2. РћРїРµСЂР°С†РёСЏ{00a100}[РЈРґР°С‡РЅРѕ]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me включил"..a.." рентген-аппарат")
+														sampSendChat("/me РІРєР»СЋС‡РёР»"..a.." СЂРµРЅС‚РіРµРЅ-Р°РїРїР°СЂР°С‚")
 														wait(1500)
-														sampSendChat("/me сделал"..a.." снимок поврежденной конечности")
+														sampSendChat("/me СЃРґРµР»Р°Р»"..a.." СЃРЅРёРјРѕРє РїРѕРІСЂРµР¶РґРµРЅРЅРѕР№ РєРѕРЅРµС‡РЅРѕСЃС‚Рё")
 														wait(1500)
-														sampSendChat("/do Спустя время снимок выведен на экран.")
+														sampSendChat("/do РЎРїСѓСЃС‚СЏ РІСЂРµРјСЏ СЃРЅРёРјРѕРє РІС‹РІРµРґРµРЅ РЅР° СЌРєСЂР°РЅ.")
 														wait(1500)
-														sampSendChat("/me внимательно изучил"..a.." снимок")
+														sampSendChat("/me РІРЅРёРјР°С‚РµР»СЊРЅРѕ РёР·СѓС‡РёР»"..a.." СЃРЅРёРјРѕРє")
 														wait(1500)
-														sampSendChat("/me надел"..a.." на пациента ингаляционную маску")
+														sampSendChat("/me РЅР°РґРµР»"..a.." РЅР° РїР°С†РёРµРЅС‚Р° РёРЅРіР°Р»СЏС†РёРѕРЅРЅСѓСЋ РјР°СЃРєСѓ")
 														wait(1500)
-														sampSendChat("/me ввёл"..a.." пациента в состояние общего наркоза")
+														sampSendChat("/me РІРІС‘Р»"..a.." РїР°С†РёРµРЅС‚Р° РІ СЃРѕСЃС‚РѕСЏРЅРёРµ РѕР±С‰РµРіРѕ РЅР°СЂРєРѕР·Р°")
 														wait(1500)
-														sampSendChat("/me скальпелем разрезал"..a.." плоть около поврежденной кости")
+														sampSendChat("/me СЃРєР°Р»СЊРїРµР»РµРј СЂР°Р·СЂРµР·Р°Р»"..a.." РїР»РѕС‚СЊ РѕРєРѕР»Рѕ РїРѕРІСЂРµР¶РґРµРЅРЅРѕР№ РєРѕСЃС‚Рё")
 														wait(1500)
-														sampSendChat("/me поджал"..a.." края плоти зажимом")
+														sampSendChat("/me РїРѕРґР¶Р°Р»"..a.." РєСЂР°СЏ РїР»РѕС‚Рё Р·Р°Р¶РёРјРѕРј")
 														wait(1500)
-														sampSendChat("/try вправил"..a.." кость пациенту")
+														sampSendChat("/try РІРїСЂР°РІРёР»"..a.." РєРѕСЃС‚СЊ РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
-														sampAddChatMessage("{00a100}Удачно{FFFFFF} - Вправил", 0xFFFFFFFF)
-														sampAddChatMessage("{ff0000}Неудачно{FFFFFF} - Невравил", 0xFFFFFFFF)
+														sampAddChatMessage("{00a100}РЈРґР°С‡РЅРѕ{FFFFFF} - Р’РїСЂР°РІРёР»", 0xFFFFFFFF)
+														sampAddChatMessage("{ff0000}РќРµСѓРґР°С‡РЅРѕ{FFFFFF} - РќРµРІСЂР°РІРёР»", 0xFFFFFFFF)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "3. Вправил{00a100}[Удачно]", X3 + 75, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "3. Р’РїСЂР°РІРёР»{00a100}[РЈРґР°С‡РЅРѕ]", X3 + 75, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me снял"..a.." зажимы")
+														sampSendChat("/me СЃРЅСЏР»"..a.." Р·Р°Р¶РёРјС‹")
 														wait(1500)
-														sampSendChat("/me взял"..a.." бионические нити и иглу")
+														sampSendChat("/me РІР·СЏР»"..a.." Р±РёРѕРЅРёС‡РµСЃРєРёРµ РЅРёС‚Рё Рё РёРіР»Сѓ")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." шов на конечность")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." С€РѕРІ РЅР° РєРѕРЅРµС‡РЅРѕСЃС‚СЊ")
 														wait(1500)
-														sampSendChat("/me вымочил"..a.." гипс в биксе кипяченной воды")
+														sampSendChat("/me РІС‹РјРѕС‡РёР»"..a.." РіРёРїСЃ РІ Р±РёРєСЃРµ РєРёРїСЏС‡РµРЅРЅРѕР№ РІРѕРґС‹")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." гипс на конечность")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." РіРёРїСЃ РЅР° РєРѕРЅРµС‡РЅРѕСЃС‚СЊ")
 														wait(1500)
 														sampSendChat("/healwound "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "3. Невправил{ff0000}[Неудачно]", X3 + 75, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "3. РќРµРІРїСЂР°РІРёР»{ff0000}[РќРµСѓРґР°С‡РЅРѕ]", X3 + 75, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me прохрустел"..a.." пальцами, размяв руки")
+														sampSendChat("/me РїСЂРѕС…СЂСѓСЃС‚РµР»"..a.." РїР°Р»СЊС†Р°РјРё, СЂР°Р·РјСЏРІ СЂСѓРєРё")
 														wait(1500)
-														sampSendChat("/me приложил"..a.." больше усилий и успешно вправил"..a.." кость")
+														sampSendChat("/me РїСЂРёР»РѕР¶РёР»"..a.." Р±РѕР»СЊС€Рµ СѓСЃРёР»РёР№ Рё СѓСЃРїРµС€РЅРѕ РІРїСЂР°РІРёР»"..a.." РєРѕСЃС‚СЊ")
 														wait(1500)
-														sampSendChat("/me снял"..a.." зажимы")
+														sampSendChat("/me СЃРЅСЏР»"..a.." Р·Р°Р¶РёРјС‹")
 														wait(1500)
-														sampSendChat("/me взял"..a.." бионические нити и иглу")
+														sampSendChat("/me РІР·СЏР»"..a.." Р±РёРѕРЅРёС‡РµСЃРєРёРµ РЅРёС‚Рё Рё РёРіР»Сѓ")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." шов на конечность")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." С€РѕРІ РЅР° РєРѕРЅРµС‡РЅРѕСЃС‚СЊ")
 														wait(1500)
-														sampSendChat("/me вымочил"..a.." гипс в биксе кипяченной воды")
+														sampSendChat("/me РІС‹РјРѕС‡РёР»"..a.." РіРёРїСЃ РІ Р±РёРєСЃРµ РєРёРїСЏС‡РµРЅРЅРѕР№ РІРѕРґС‹")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." гипс на конечность")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." РіРёРїСЃ РЅР° РєРѕРЅРµС‡РЅРѕСЃС‚СЊ")
 														wait(1500)
 														sampSendChat("/healwound "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "2. Рентген{ff0000}[Неудачно]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "2. Р РµРЅС‚РіРµРЅ{ff0000}[РќРµСѓРґР°С‡РЅРѕ]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me включил"..a.." рентген аппарат")
+														sampSendChat("/me РІРєР»СЋС‡РёР»"..a.." СЂРµРЅС‚РіРµРЅ Р°РїРїР°СЂР°С‚")
 														wait(1500)
-														sampSendChat("/me сделал"..a.." снимок повреждённой конечности")
+														sampSendChat("/me СЃРґРµР»Р°Р»"..a.." СЃРЅРёРјРѕРє РїРѕРІСЂРµР¶РґС‘РЅРЅРѕР№ РєРѕРЅРµС‡РЅРѕСЃС‚Рё")
 														wait(1500)
-														sampSendChat("/do Спустя время снимок выведен на экран.")
+														sampSendChat("/do РЎРїСѓСЃС‚СЏ РІСЂРµРјСЏ СЃРЅРёРјРѕРє РІС‹РІРµРґРµРЅ РЅР° СЌРєСЂР°РЅ.")
 														wait(1500)
-														sampSendChat("/try увидел"..a.." на снимке перелом")
+														sampSendChat("/try СѓРІРёРґРµР»"..a.." РЅР° СЃРЅРёРјРєРµ РїРµСЂРµР»РѕРј")
 														wait(300)
-														sampAddChatMessage("{00a100}Удачно{FFFFFF} - Закрытый", 0xFFFFFFFF)
-														sampAddChatMessage("{ff0000}Неудачно{FFFFFF} - Ушиб", 0xFFFFFFFF)
+														sampAddChatMessage("{00a100}РЈРґР°С‡РЅРѕ{FFFFFF} - Р—Р°РєСЂС‹С‚С‹Р№", 0xFFFFFFFF)
+														sampAddChatMessage("{ff0000}РќРµСѓРґР°С‡РЅРѕ{FFFFFF} - РЈС€РёР±", 0xFFFFFFFF)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "3. Закрытый{00a100}[Удачно]", X3 + 75, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "3. Р—Р°РєСЂС‹С‚С‹Р№{00a100}[РЈРґР°С‡РЅРѕ]", X3 + 75, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me достал"..a.." шприц и ампулу обезболивающего")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." С€РїСЂРёС† Рё Р°РјРїСѓР»Сѓ РѕР±РµР·Р±РѕР»РёРІР°СЋС‰РµРіРѕ")
 														wait(1500)
-														sampSendChat("/me набрал"..a.." обезболивающее в шприц")
+														sampSendChat("/me РЅР°Р±СЂР°Р»"..a.." РѕР±РµР·Р±РѕР»РёРІР°СЋС‰РµРµ РІ С€РїСЂРёС†")
 														wait(1500)
-														sampSendChat("/me ввел"..a.." обезболивающее пациенту")
+														sampSendChat("/me РІРІРµР»"..a.." РѕР±РµР·Р±РѕР»РёРІР°СЋС‰РµРµ РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
-														sampSendChat("/me вправил"..a.." кость")
+														sampSendChat("/me РІРїСЂР°РІРёР»"..a.." РєРѕСЃС‚СЊ")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." повязку софткаст пациенту")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." РїРѕРІСЏР·РєСѓ СЃРѕС„С‚РєР°СЃС‚ РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
 														sampSendChat("/healwound "..playerid)
 														wait(1500)
-														sampSendChat("/me выдал"..a.." пациенту костыли")
+														sampSendChat("/me РІС‹РґР°Р»"..a.." РїР°С†РёРµРЅС‚Сѓ РєРѕСЃС‚С‹Р»Рё")
 														wait(1500)
-														sampSendChat("По началу будет неудобно, но, уверяю, вы справитесь")
+														sampSendChat("РџРѕ РЅР°С‡Р°Р»Сѓ Р±СѓРґРµС‚ РЅРµСѓРґРѕР±РЅРѕ, РЅРѕ, СѓРІРµСЂСЏСЋ, РІС‹ СЃРїСЂР°РІРёС‚РµСЃСЊ")
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "3. Ушиб{ff0000}[Неудачно]", X3 + 75, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "3. РЈС€РёР±{ff0000}[РќРµСѓРґР°С‡РЅРѕ]", X3 + 75, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Вам повезло, что обошлось без переломов")
+														sampSendChat("Р’Р°Рј РїРѕРІРµР·Р»Рѕ, С‡С‚Рѕ РѕР±РѕС€Р»РѕСЃСЊ Р±РµР· РїРµСЂРµР»РѕРјРѕРІ")
 														wait(1500)
-														sampSendChat("Всего лишь ушиб")
+														sampSendChat("Р’СЃРµРіРѕ Р»РёС€СЊ СѓС€РёР±")
 														wait(1500)
-														sampSendChat("/me достал"..a.." из медсумки тюбик мази")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· РјРµРґСЃСѓРјРєРё С‚СЋР±РёРє РјР°Р·Рё")
 														wait(1500)
-														sampSendChat("/me нанес"..la.." на место ушиба мазь и растер"..la.." ее")
+														sampSendChat("/me РЅР°РЅРµСЃ"..la.." РЅР° РјРµСЃС‚Рѕ СѓС€РёР±Р° РјР°Р·СЊ Рё СЂР°СЃС‚РµСЂ"..la.." РµРµ")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." на место ушиба эластичный бинт")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." РЅР° РјРµСЃС‚Рѕ СѓС€РёР±Р° СЌР»Р°СЃС‚РёС‡РЅС‹Р№ Р±РёРЅС‚")
 														wait(1500)
 														sampSendChat("/healwound "..playerid)
 													end
 												end
 
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Ранения", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "Р Р°РЅРµРЅРёСЏ", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													menu_healwoundran[playerid] = not menu_healwoundran[playerid]
-													menu_healwoundper = {} -- вкл выкл меню
+													menu_healwoundper = {} -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 													menu_heal = {}
 													menu_healdisease = {}
 													menu_mc = {}
@@ -941,82 +941,82 @@ function main()
 												end
 												if menu_healwoundran[playerid] then
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Раны(резаные, колотые, рубленые, рваные)", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р Р°РЅС‹(СЂРµР·Р°РЅС‹Рµ, РєРѕР»РѕС‚С‹Рµ, СЂСѓР±Р»РµРЅС‹Рµ, СЂРІР°РЅС‹Рµ)", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Ложитесь на стол, сейчас будете как новенький")
+														sampSendChat("Р›РѕР¶РёС‚РµСЃСЊ РЅР° СЃС‚РѕР», СЃРµР№С‡Р°СЃ Р±СѓРґРµС‚Рµ РєР°Рє РЅРѕРІРµРЅСЊРєРёР№")
 														wait(1500)
-														sampSendChat("/me достал"..a.." из мед.сумки баночку зеленки")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёР· РјРµРґ.СЃСѓРјРєРё Р±Р°РЅРѕС‡РєСѓ Р·РµР»РµРЅРєРё")
 														wait(1500)
-														sampSendChat("/me продезинфецировал"..a.." рану пациента")
+														sampSendChat("/me РїСЂРѕРґРµР·РёРЅС„РµС†РёСЂРѕРІР°Р»"..a.." СЂР°РЅСѓ РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/me подготовил"..a.." всё для операции")
+														sampSendChat("/me РїРѕРґРіРѕС‚РѕРІРёР»"..a.." РІСЃС‘ РґР»СЏ РѕРїРµСЂР°С†РёРё")
 														wait(1500)
-														sampSendChat("/do Всё необходимое лежит на столе.")
+														sampSendChat("/do Р’СЃС‘ РЅРµРѕР±С…РѕРґРёРјРѕРµ Р»РµР¶РёС‚ РЅР° СЃС‚РѕР»Рµ.")
 														wait(1500)
-														sampSendChat("/me взял"..a.." в руки хирургические нити и иглу")
+														sampSendChat("/me РІР·СЏР»"..a.." РІ СЂСѓРєРё С…РёСЂСѓСЂРіРёС‡РµСЃРєРёРµ РЅРёС‚Рё Рё РёРіР»Сѓ")
 														wait(1500)
-														sampSendChat("/do Доктор накладывает швы на рану.")
+														sampSendChat("/do Р”РѕРєС‚РѕСЂ РЅР°РєР»Р°РґС‹РІР°РµС‚ С€РІС‹ РЅР° СЂР°РЅСѓ.")
 														wait(1500)
-														sampSendChat("/me убрал"..a.." хирургические нити и иглу")
+														sampSendChat("/me СѓР±СЂР°Р»"..a.." С…РёСЂСѓСЂРіРёС‡РµСЃРєРёРµ РЅРёС‚Рё Рё РёРіР»Сѓ")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." стерильную повязку на место шва")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." СЃС‚РµСЂРёР»СЊРЅСѓСЋ РїРѕРІСЏР·РєСѓ РЅР° РјРµСЃС‚Рѕ С€РІР°")
 														wait(1500)
 														sampSendChat("/healwound "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Огнестрельные ранения", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РћРіРЅРµСЃС‚СЂРµР»СЊРЅС‹Рµ СЂР°РЅРµРЅРёСЏ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me осмотрел"..a.." ранение пострадавшего")
+														sampSendChat("/me РѕСЃРјРѕС‚СЂРµР»"..a.." СЂР°РЅРµРЅРёРµ РїРѕСЃС‚СЂР°РґР°РІС€РµРіРѕ")
 														wait(1500)
-														sampSendChat("/me достал"..a.." ампулу новокаина, шприц и набрал"..a.." новокаин в шприц")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." Р°РјРїСѓР»Сѓ РЅРѕРІРѕРєР°РёРЅР°, С€РїСЂРёС† Рё РЅР°Р±СЂР°Р»"..a.." РЅРѕРІРѕРєР°РёРЅ РІ С€РїСЂРёС†")
 														wait(1500)
-														sampSendChat("/me ввёл"..a.." обезболивающее пациенту")
+														sampSendChat("/me РІРІС‘Р»"..a.." РѕР±РµР·Р±РѕР»РёРІР°СЋС‰РµРµ РїР°С†РёРµРЅС‚Сѓ")
 														wait(1500)
-														sampSendChat("/me взял"..a.." скальпель и сделал"..a.." надрез в месте ранения")
+														sampSendChat("/me РІР·СЏР»"..a.." СЃРєР°Р»СЊРїРµР»СЊ Рё СЃРґРµР»Р°Р»"..a.." РЅР°РґСЂРµР· РІ РјРµСЃС‚Рµ СЂР°РЅРµРЅРёСЏ")
 														wait(1500)
-														sampSendChat("/me положил"..a.." скальпель и взял"..a.." щипцы")
+														sampSendChat("/me РїРѕР»РѕР¶РёР»"..a.." СЃРєР°Р»СЊРїРµР»СЊ Рё РІР·СЏР»"..a.." С‰РёРїС†С‹")
 														wait(1500)
-														sampSendChat("/try успешно извлёк"..la.." пулю")
+														sampSendChat("/try СѓСЃРїРµС€РЅРѕ РёР·РІР»С‘Рє"..la.." РїСѓР»СЋ")
 														wait(300)
-														sampAddChatMessage("{00a100}Удачно{FFFFFF} - Огнестрельное ранение{00a100}[Удачно]", 0xFFFFFFFF)
+														sampAddChatMessage("{00a100}РЈРґР°С‡РЅРѕ{FFFFFF} - РћРіРЅРµСЃС‚СЂРµР»СЊРЅРѕРµ СЂР°РЅРµРЅРёРµ{00a100}[РЈРґР°С‡РЅРѕ]", 0xFFFFFFFF)
 														wait(300)
-														sampAddChatMessage("{ff0000}Неудачно{FFFFFF} - Огнестрельное ранение{ff0000}[Неудачно]", 0xFFFFFFFF)
+														sampAddChatMessage("{ff0000}РќРµСѓРґР°С‡РЅРѕ{FFFFFF} - РћРіРЅРµСЃС‚СЂРµР»СЊРЅРѕРµ СЂР°РЅРµРЅРёРµ{ff0000}[РќРµСѓРґР°С‡РЅРѕ]", 0xFFFFFFFF)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Огнестрел{00a100}[Удачно]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РћРіРЅРµСЃС‚СЂРµР»{00a100}[РЈРґР°С‡РЅРѕ]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me убрал"..a.." пулю в почкообразный контейнер")
+														sampSendChat("/me СѓР±СЂР°Р»"..a.." РїСѓР»СЋ РІ РїРѕС‡РєРѕРѕР±СЂР°Р·РЅС‹Р№ РєРѕРЅС‚РµР№РЅРµСЂ")
 														wait(1500)
-														sampSendChat("/me взял"..a.." в руки хирургическую иглу и нить")
+														sampSendChat("/me РІР·СЏР»"..a.." РІ СЂСѓРєРё С…РёСЂСѓСЂРіРёС‡РµСЃРєСѓСЋ РёРіР»Сѓ Рё РЅРёС‚СЊ")
 														wait(1500)
-														sampSendChat("/do Доктор накладывает швы.")
+														sampSendChat("/do Р”РѕРєС‚РѕСЂ РЅР°РєР»Р°РґС‹РІР°РµС‚ С€РІС‹.")
 														wait(1500)
-														sampSendChat("/me оборвал"..a.." нить и убрал"..a.." иглу")
+														sampSendChat("/me РѕР±РѕСЂРІР°Р»"..a.." РЅРёС‚СЊ Рё СѓР±СЂР°Р»"..a.." РёРіР»Сѓ")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." марлевую повязку на рану")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." РјР°СЂР»РµРІСѓСЋ РїРѕРІСЏР·РєСѓ РЅР° СЂР°РЅСѓ")
 														wait(1500)
 														sampSendChat("/healwound "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Огнестрел{ff0000}[Неудачно]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РћРіРЅРµСЃС‚СЂРµР»{ff0000}[РќРµСѓРґР°С‡РЅРѕ]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me положил"..a.." щипцы на место и взял"..a.." скальпель")
+														sampSendChat("/me РїРѕР»РѕР¶РёР»"..a.." С‰РёРїС†С‹ РЅР° РјРµСЃС‚Рѕ Рё РІР·СЏР»"..a.." СЃРєР°Р»СЊРїРµР»СЊ")
 														wait(1500)
-														sampSendChat("/me сделал"..a.." дополнительный надрез")
+														sampSendChat("/me СЃРґРµР»Р°Р»"..a.." РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ РЅР°РґСЂРµР·")
 														wait(1500)
-														sampSendChat("/me снова взял"..a.." щипцы и успешно извлёк(извлекла) пулю")
+														sampSendChat("/me СЃРЅРѕРІР° РІР·СЏР»"..a.." С‰РёРїС†С‹ Рё СѓСЃРїРµС€РЅРѕ РёР·РІР»С‘Рє(РёР·РІР»РµРєР»Р°) РїСѓР»СЋ")
 														wait(1500)
-														sampSendChat("/me убрал"..a.." пулю в почкообразный контейнер")
+														sampSendChat("/me СѓР±СЂР°Р»"..a.." РїСѓР»СЋ РІ РїРѕС‡РєРѕРѕР±СЂР°Р·РЅС‹Р№ РєРѕРЅС‚РµР№РЅРµСЂ")
 														wait(1500)
-														sampSendChat("/do Доктор накладывает швы.")
+														sampSendChat("/do Р”РѕРєС‚РѕСЂ РЅР°РєР»Р°РґС‹РІР°РµС‚ С€РІС‹.")
 														wait(1500)
-														sampSendChat("/me обрезал"..a.." нить и убрал"..a.." иглу")
+														sampSendChat("/me РѕР±СЂРµР·Р°Р»"..a.." РЅРёС‚СЊ Рё СѓР±СЂР°Р»"..a.." РёРіР»Сѓ")
 														wait(1500)
-														sampSendChat("/me наложил"..a.." на рану марлевую повязку")
+														sampSendChat("/me РЅР°Р»РѕР¶РёР»"..a.." РЅР° СЂР°РЅСѓ РјР°СЂР»РµРІСѓСЋ РїРѕРІСЏР·РєСѓ")
 														wait(1500)
 														sampSendChat("/healwound "..playerid)
 													end
@@ -1025,8 +1025,8 @@ function main()
 
 
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Мед.карта", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
-													menu_mc[playerid] = not menu_mc[playerid] -- вкл выкл меню
+												if ClickTheText(font, "РњРµРґ.РєР°СЂС‚Р°", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+													menu_mc[playerid] = not menu_mc[playerid] -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 													menu_heal = {}
 													menu_healdisease = {}
 													menu_healwound = {}
@@ -1034,128 +1034,128 @@ function main()
 												end
 												if menu_mc[playerid] then
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Попросить паспорт", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РџРѕРїСЂРѕСЃРёС‚СЊ РїР°СЃРїРѕСЂС‚", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Перед тем как начать, мне необходимо проверить..")
+														sampSendChat("РџРµСЂРµРґ С‚РµРј РєР°Рє РЅР°С‡Р°С‚СЊ, РјРЅРµ РЅРµРѕР±С…РѕРґРёРјРѕ РїСЂРѕРІРµСЂРёС‚СЊ..")
 														wait(1500)
-														sampSendChat("..Ваш паспорт. Предъявите Ваш паспорт в развернутом виде")
+														sampSendChat("..Р’Р°С€ РїР°СЃРїРѕСЂС‚. РџСЂРµРґСЉСЏРІРёС‚Рµ Р’Р°С€ РїР°СЃРїРѕСЂС‚ РІ СЂР°Р·РІРµСЂРЅСѓС‚РѕРј РІРёРґРµ")
 														wait(1500)
 														sampSendChat("/b /showpass "..myid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Выдать мед.карту", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р’С‹РґР°С‚СЊ РјРµРґ.РєР°СЂС‚Сѓ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Сейчас мы заведем мед. карту на Ваше имя")
+														sampSendChat("РЎРµР№С‡Р°СЃ РјС‹ Р·Р°РІРµРґРµРј РјРµРґ. РєР°СЂС‚Сѓ РЅР° Р’Р°С€Рµ РёРјСЏ")
 														wait(1500)
-														sampSendChat("/me достал"..a.." бланк медицинской карты")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." Р±Р»Р°РЅРє РјРµРґРёС†РёРЅСЃРєРѕР№ РєР°СЂС‚С‹")
 														wait(1500)
-														sampSendChat("/me внес(ла) данные пациента")
+														sampSendChat("/me РІРЅРµСЃ(Р»Р°) РґР°РЅРЅС‹Рµ РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
 														sampSendChat("/givemc "..playerid)
 														wait(1500)
-														sampSendChat("/me передал"..a.." карту "..targetname.." "..targetsurname)
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РєР°СЂС‚Сѓ "..targetname.." "..targetsurname)
 														wait(1500)
-														sampSendChat("/b /showmc ID - показать мед.карту")
+														sampSendChat("/b /showmc ID - РїРѕРєР°Р·Р°С‚СЊ РјРµРґ.РєР°СЂС‚Сѓ")
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Найти мед.карту", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РќР°Р№С‚Рё РјРµРґ.РєР°СЂС‚Сѓ", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Минуту. Сейчас я ознакомлюсь с Вашей медкартой")
+														sampSendChat("РњРёРЅСѓС‚Сѓ. РЎРµР№С‡Р°СЃ СЏ РѕР·РЅР°РєРѕРјР»СЋСЃСЊ СЃ Р’Р°С€РµР№ РјРµРґРєР°СЂС‚РѕР№")
 														wait(1500)
-														sampSendChat("/me достал"..a.." планшетный компьютер")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РїР»Р°РЅС€РµС‚РЅС‹Р№ РєРѕРјРїСЊСЋС‚РµСЂ")
 														wait(1500)
-														sampSendChat("/me начал"..a.." поиск медкарты на имя "..targetname.." "..targetsurname)
+														sampSendChat("/me РЅР°С‡Р°Р»"..a.." РїРѕРёСЃРє РјРµРґРєР°СЂС‚С‹ РЅР° РёРјСЏ "..targetname.." "..targetsurname)
 														wait(1500)
 														sampSendChat("/findmc "..nick)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Инфо о отметке годности", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "Р�РЅС„Рѕ Рѕ РѕС‚РјРµС‚РєРµ РіРѕРґРЅРѕСЃС‚Рё", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("Если Вы хотите получить в мед. карту печать...")
+														sampSendChat("Р•СЃР»Рё Р’С‹ С…РѕС‚РёС‚Рµ РїРѕР»СѓС‡РёС‚СЊ РІ РјРµРґ. РєР°СЂС‚Сѓ РїРµС‡Р°С‚СЊ...")
 														wait(1500)
-														sampSendChat("..о годности к воинской службе...")
+														sampSendChat("..Рѕ РіРѕРґРЅРѕСЃС‚Рё Рє РІРѕРёРЅСЃРєРѕР№ СЃР»СѓР¶Р±Рµ...")
 														wait(1500)
-														sampSendChat("...необходимо пройти дополнительную мед.комиссию")
+														sampSendChat("...РЅРµРѕР±С…РѕРґРёРјРѕ РїСЂРѕР№С‚Рё РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅСѓСЋ РјРµРґ.РєРѕРјРёСЃСЃРёСЋ")
 														wait(1500)
-														sampSendChat("Стоимость теста - 5000 вирт. Производится наличными врачу")
+														sampSendChat("РЎС‚РѕРёРјРѕСЃС‚СЊ С‚РµСЃС‚Р° - 5000 РІРёСЂС‚. РџСЂРѕРёР·РІРѕРґРёС‚СЃСЏ РЅР°Р»РёС‡РЅС‹РјРё РІСЂР°С‡Сѓ")
 														wait(1500)
 														sampSendChat("/b /pay "..myid.." 5000")
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Тест для отметки годности", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РўРµСЃС‚ РґР»СЏ РѕС‚РјРµС‚РєРё РіРѕРґРЅРѕСЃС‚Рё", X3 + 45, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me достал"..a.." экспресс-тест")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." СЌРєСЃРїСЂРµСЃСЃ-С‚РµСЃС‚")
 														wait(1500)
-														sampSendChat("/do Доктор взял(a) анализ крови пациента.")
+														sampSendChat("/do Р”РѕРєС‚РѕСЂ РІР·СЏР»(a) Р°РЅР°Р»РёР· РєСЂРѕРІРё РїР°С†РёРµРЅС‚Р°.")
 														wait(1500)
-														sampSendChat("/me провел"..a.." экспресс-тест на болезни")
+														sampSendChat("/me РїСЂРѕРІРµР»"..a.." СЌРєСЃРїСЂРµСЃСЃ-С‚РµСЃС‚ РЅР° Р±РѕР»РµР·РЅРё")
 														wait(1500)
 														sampSendChat("/healdisease "..playerid)
 														wait(300)
-														sampAddChatMessage("{ff0000}Не годен {ffffff}если:", 0xFFFFFFFF)
-														sampAddChatMessage("{ffffff}Наркозависимость, алкоголизм - 1 стадия и выше", 0xFFFFFFFF)
-														sampAddChatMessage("{ffffff}Грипп, бронхит, микоз, энцефалит - 3 стадия и выше", 0xFFFFFFFF)
-														sampAddChatMessage("{ffffff}Отравление - 3 стадия и выше", 0xFFFFFFFF)
+														sampAddChatMessage("{ff0000}РќРµ РіРѕРґРµРЅ {ffffff}РµСЃР»Рё:", 0xFFFFFFFF)
+														sampAddChatMessage("{ffffff}РќР°СЂРєРѕР·Р°РІРёСЃРёРјРѕСЃС‚СЊ, Р°Р»РєРѕРіРѕР»РёР·Рј - 1 СЃС‚Р°РґРёСЏ Рё РІС‹С€Рµ", 0xFFFFFFFF)
+														sampAddChatMessage("{ffffff}Р“СЂРёРїРї, Р±СЂРѕРЅС…РёС‚, РјРёРєРѕР·, СЌРЅС†РµС„Р°Р»РёС‚ - 3 СЃС‚Р°РґРёСЏ Рё РІС‹С€Рµ", 0xFFFFFFFF)
+														sampAddChatMessage("{ffffff}РћС‚СЂР°РІР»РµРЅРёРµ - 3 СЃС‚Р°РґРёСЏ Рё РІС‹С€Рµ", 0xFFFFFFFF)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Отметка{00a100}[ГОДЕН]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РћС‚РјРµС‚РєР°{00a100}[Р“РћР”Р•Рќ]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/do Экспресс-тест: Результат: отрицательный | Годен для службы.")
+														sampSendChat("/do Р­РєСЃРїСЂРµСЃСЃ-С‚РµСЃС‚: Р РµР·СѓР»СЊС‚Р°С‚: РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Р№ | Р“РѕРґРµРЅ РґР»СЏ СЃР»СѓР¶Р±С‹.")
 														wait(1500)
-														sampSendChat("Поздравляю, вы годны к воинской службе")
+														sampSendChat("РџРѕР·РґСЂР°РІР»СЏСЋ, РІС‹ РіРѕРґРЅС‹ Рє РІРѕРёРЅСЃРєРѕР№ СЃР»СѓР¶Р±Рµ")
 														wait(1500)
-														sampSendChat("/me внес"..la.." данные в медкарту")
+														sampSendChat("/me РІРЅРµСЃ"..la.." РґР°РЅРЅС‹Рµ РІ РјРµРґРєР°СЂС‚Сѓ")
 														wait(1500)
-														sampSendChat("/me передал"..a.." медкарту "..targetname.." "..targetsurname)
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РјРµРґРєР°СЂС‚Сѓ "..targetname.." "..targetsurname)
 														wait(1500)
 														sampSendChat("/updatemc "..playerid.." 1")
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "Отметка{ff0000}[НЕ ГОДЕН]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
+													if ClickTheText(font, "РћС‚РјРµС‚РєР°{ff0000}[РќР• Р“РћР”Р•Рќ]", X3 + 60, Y3, 0xFFffc4c4, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/do Экспресс-тест: Результат: положительный | Не годен для службы.")
+														sampSendChat("/do Р­РєСЃРїСЂРµСЃСЃ-С‚РµСЃС‚: Р РµР·СѓР»СЊС‚Р°С‚: РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Р№ | РќРµ РіРѕРґРµРЅ РґР»СЏ СЃР»СѓР¶Р±С‹.")
 														wait(1500)
-														sampSendChat("У Вас положительный результат. Вам необходимо пройти лечение")
+														sampSendChat("РЈ Р’Р°СЃ РїРѕР»РѕР¶РёС‚РµР»СЊРЅС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚. Р’Р°Рј РЅРµРѕР±С…РѕРґРёРјРѕ РїСЂРѕР№С‚Рё Р»РµС‡РµРЅРёРµ")
 														wait(1500)
-														sampSendChat("/me внес"..la.." данные в медкарту")
+														sampSendChat("/me РІРЅРµСЃ"..la.." РґР°РЅРЅС‹Рµ РІ РјРµРґРєР°СЂС‚Сѓ")
 														wait(1500)
-														sampSendChat("/me передал"..a.." медкарту "..targetname.." "..targetsurname)
+														sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." РјРµРґРєР°СЂС‚Сѓ "..targetname.." "..targetsurname)
 														wait(1500)
 														sampSendChat("/updatemc "..playerid.." 0")
 													end
 												end
 
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Страхование пациента", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "РЎС‚СЂР°С…РѕРІР°РЅРёРµ РїР°С†РёРµРЅС‚Р°", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													wait(250)
 													sampSetCursorMode(0)
-													sampSendChat("Сейчас я внесу Ваши данные в страховой полис")
+													sampSendChat("РЎРµР№С‡Р°СЃ СЏ РІРЅРµСЃСѓ Р’Р°С€Рё РґР°РЅРЅС‹Рµ РІ СЃС‚СЂР°С…РѕРІРѕР№ РїРѕР»РёСЃ")
 													wait(1500)
-													sampSendChat("/me достал"..a.." электронный планшет из кармана")
+													sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." СЌР»РµРєС‚СЂРѕРЅРЅС‹Р№ РїР»Р°РЅС€РµС‚ РёР· РєР°СЂРјР°РЅР°")
 													wait(1500)
-													sampSendChat("/me вошел"..a.." в систему базы данных министерства здравоохранения")
+													sampSendChat("/me РІРѕС€РµР»"..a.." РІ СЃРёСЃС‚РµРјСѓ Р±Р°Р·С‹ РґР°РЅРЅС‹С… РјРёРЅРёСЃС‚РµСЂСЃС‚РІР° Р·РґСЂР°РІРѕРѕС…СЂР°РЅРµРЅРёСЏ")
 													wait(1500)
-													sampSendChat("/me вписал"..a.." данные пациента в электронный страховой полис")
+													sampSendChat("/me РІРїРёСЃР°Р»"..a.." РґР°РЅРЅС‹Рµ РїР°С†РёРµРЅС‚Р° РІ СЌР»РµРєС‚СЂРѕРЅРЅС‹Р№ СЃС‚СЂР°С…РѕРІРѕР№ РїРѕР»РёСЃ")
 													wait(1500)
-													sampSendChat("/do Оформлена заявка на имя "..targetname.." "..targetsurname)
+													sampSendChat("/do РћС„РѕСЂРјР»РµРЅР° Р·Р°СЏРІРєР° РЅР° РёРјСЏ "..targetname.." "..targetsurname)
 													wait(1500)
-													sampSendChat("/do У стола стоит компактный терминал.")
+													sampSendChat("/do РЈ СЃС‚РѕР»Р° СЃС‚РѕРёС‚ РєРѕРјРїР°РєС‚РЅС‹Р№ С‚РµСЂРјРёРЅР°Р».")
 													wait(1500)
-													sampSendChat("Произведите оплату путем приложения Вашей карточки")
+													sampSendChat("РџСЂРѕРёР·РІРµРґРёС‚Рµ РѕРїР»Р°С‚Сѓ РїСѓС‚РµРј РїСЂРёР»РѕР¶РµРЅРёСЏ Р’Р°С€РµР№ РєР°СЂС‚РѕС‡РєРё")
 													wait(1500)
 													sampSendChat("/healwound "..playerid)
 												end
 
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Смена пола", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
-													menu_setsex[playerid] = not menu_setsex[playerid] -- вкл выкл меню
+												if ClickTheText(font, "РЎРјРµРЅР° РїРѕР»Р°", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+													menu_setsex[playerid] = not menu_setsex[playerid] -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 													menu_heal = {}
 													menu_healdisease = {}
 													menu_mc = {}
@@ -1163,62 +1163,62 @@ function main()
 												end
 												if menu_setsex[playerid] then
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "На мужской", X3 + 45, Y3, 0xFF0048ff, 0xFFFFFFFF) then
+													if ClickTheText(font, "РќР° РјСѓР¶СЃРєРѕР№", X3 + 45, Y3, 0xFF0048ff, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me приготовил"..a.." стерильные инструменты")
+														sampSendChat("/me РїСЂРёРіРѕС‚РѕРІРёР»"..a.." СЃС‚РµСЂРёР»СЊРЅС‹Рµ РёРЅСЃС‚СЂСѓРјРµРЅС‚С‹")
 														wait(1500)
-														sampSendChat("/me приготовил"..a.." наркоз")
+														sampSendChat("/me РїСЂРёРіРѕС‚РѕРІРёР»"..a.." РЅР°СЂРєРѕР·")
 														wait(1500)
-														sampSendChat("/me отыскал"..a.." на руке пациента периферическую вену")
+														sampSendChat("/me РѕС‚С‹СЃРєР°Р»"..a.." РЅР° СЂСѓРєРµ РїР°С†РёРµРЅС‚Р° РїРµСЂРёС„РµСЂРёС‡РµСЃРєСѓСЋ РІРµРЅСѓ")
 														wait(1500)
-														sampSendChat("/me ввел"..a.." катетер и поставил"..a.." клипсу на палец")
+														sampSendChat("/me РІРІРµР»"..a.." РєР°С‚РµС‚РµСЂ Рё РїРѕСЃС‚Р°РІРёР»"..a.." РєР»РёРїСЃСѓ РЅР° РїР°Р»РµС†")
 														wait(1500)
-														sampSendChat("/me достал"..a.." ингаляционную маску")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёРЅРіР°Р»СЏС†РёРѕРЅРЅСѓСЋ РјР°СЃРєСѓ")
 														wait(1500)
-														sampSendChat("/me надел"..a.." маску на лицо пациента")
+														sampSendChat("/me РЅР°РґРµР»"..a.." РјР°СЃРєСѓ РЅР° Р»РёС†Рѕ РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/do Пациент находится под наркозом.")
+														sampSendChat("/do РџР°С†РёРµРЅС‚ РЅР°С…РѕРґРёС‚СЃСЏ РїРѕРґ РЅР°СЂРєРѕР·РѕРј.")
 														wait(1500)
-														sampSendChat("/me удалил"..a.." яичники и фаллопиевы трубы")
+														sampSendChat("/me СѓРґР°Р»РёР»"..a.." СЏРёС‡РЅРёРєРё Рё С„Р°Р»Р»РѕРїРёРµРІС‹ С‚СЂСѓР±С‹")
 														wait(1500)
-														sampSendChat("/me снял"..a.." маску с лица пациента")
+														sampSendChat("/me СЃРЅСЏР»"..a.." РјР°СЃРєСѓ СЃ Р»РёС†Р° РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/me отключил"..a.." подачу наркоза")
+														sampSendChat("/me РѕС‚РєР»СЋС‡РёР»"..a.." РїРѕРґР°С‡Сѓ РЅР°СЂРєРѕР·Р°")
 														wait(1500)
-														sampSendChat("/do Операция овариэктомия прошла успешно.")
+														sampSendChat("/do РћРїРµСЂР°С†РёСЏ РѕРІР°СЂРёСЌРєС‚РѕРјРёСЏ РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ.")
 														wait(1500)
 														sampSendChat("/setsex "..playerid)
 													end
 													Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-													if ClickTheText(font, "На женский", X3 + 45, Y3, 0xFFff477e, 0xFFFFFFFF) then
+													if ClickTheText(font, "РќР° Р¶РµРЅСЃРєРёР№", X3 + 45, Y3, 0xFFff477e, 0xFFFFFFFF) then
 														wait(250)
 														sampSetCursorMode(0)
-														sampSendChat("/me приготовил"..a.." стерильные инструменты")
+														sampSendChat("/me РїСЂРёРіРѕС‚РѕРІРёР»"..a.." СЃС‚РµСЂРёР»СЊРЅС‹Рµ РёРЅСЃС‚СЂСѓРјРµРЅС‚С‹")
 														wait(1500)
-														sampSendChat("/me приготовил"..a.." наркоз")
+														sampSendChat("/me РїСЂРёРіРѕС‚РѕРІРёР»"..a.." РЅР°СЂРєРѕР·")
 														wait(1500)
-														sampSendChat("/me нашел"..a.." на руке пациента периферическую вену")
+														sampSendChat("/me РЅР°С€РµР»"..a.." РЅР° СЂСѓРєРµ РїР°С†РёРµРЅС‚Р° РїРµСЂРёС„РµСЂРёС‡РµСЃРєСѓСЋ РІРµРЅСѓ")
 														wait(1500)
-														sampSendChat("/me ввел"..a.." катетер и поставил"..a.." клипсу на палец")
+														sampSendChat("/me РІРІРµР»"..a.." РєР°С‚РµС‚РµСЂ Рё РїРѕСЃС‚Р°РІРёР»"..a.." РєР»РёРїСЃСѓ РЅР° РїР°Р»РµС†")
 														wait(1500)
-														sampSendChat("/me достал"..a.." ингаляционную маску")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёРЅРіР°Р»СЏС†РёРѕРЅРЅСѓСЋ РјР°СЃРєСѓ")
 														wait(1500)
-														sampSendChat("/me надел"..a.." маску на лицо пациента")
+														sampSendChat("/me РЅР°РґРµР»"..a.." РјР°СЃРєСѓ РЅР° Р»РёС†Рѕ РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/do Пациент находится под наркозом.")
+														sampSendChat("/do РџР°С†РёРµРЅС‚ РЅР°С…РѕРґРёС‚СЃСЏ РїРѕРґ РЅР°СЂРєРѕР·РѕРј.")
 														wait(1500)
-														sampSendChat("/me достал"..a.." инструменты")
+														sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РёРЅСЃС‚СЂСѓРјРµРЅС‚С‹")
 														wait(1500)
-														sampSendChat("/me разрезал"..a.." и удалил"..a.." мужские половые ограны")
+														sampSendChat("/me СЂР°Р·СЂРµР·Р°Р»"..a.." Рё СѓРґР°Р»РёР»"..a.." РјСѓР¶СЃРєРёРµ РїРѕР»РѕРІС‹Рµ РѕРіСЂР°РЅС‹")
 														wait(1500)
-														sampSendChat("/me сформировал"..a.." женские половые органы")
+														sampSendChat("/me СЃС„РѕСЂРјРёСЂРѕРІР°Р»"..a.." Р¶РµРЅСЃРєРёРµ РїРѕР»РѕРІС‹Рµ РѕСЂРіР°РЅС‹")
 														wait(1500)
-														sampSendChat("/me снял"..a.." маску с лица пациента")
+														sampSendChat("/me СЃРЅСЏР»"..a.." РјР°СЃРєСѓ СЃ Р»РёС†Р° РїР°С†РёРµРЅС‚Р°")
 														wait(1500)
-														sampSendChat("/me отключил"..a.." подачу наркоза")
+														sampSendChat("/me РѕС‚РєР»СЋС‡РёР»"..a.." РїРѕРґР°С‡Сѓ РЅР°СЂРєРѕР·Р°")
 														wait(1500)
-														sampSendChat("/do Операция прошла успешно.")
+														sampSendChat("/do РћРїРµСЂР°С†РёСЏ РїСЂРѕС€Р»Р° СѓСЃРїРµС€РЅРѕ.")
 														wait(1500)
 														sampSendChat("/setsex "..playerid)
 													end
@@ -1227,50 +1227,50 @@ function main()
 											end
 
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Не отыгрывать", X3 + 15, Y3, 0xFFfc4e4e, 0xFFFFFFFF) then
-												menu_1no[playerid] = not menu_1no[playerid] -- вкл выкл меню
+											if ClickTheText(font, "РќРµ РѕС‚С‹РіСЂС‹РІР°С‚СЊ", X3 + 15, Y3, 0xFFfc4e4e, 0xFFFFFFFF) then
+												menu_1no[playerid] = not menu_1no[playerid] -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 												menu_1o = {}
 											end
 
 											if menu_1no[playerid] then
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Лечение", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "Р›РµС‡РµРЅРёРµ", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													sampSendChat("/heal "..playerid)
 												end
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Болезни и Зависимости", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "Р‘РѕР»РµР·РЅРё Рё Р—Р°РІРёСЃРёРјРѕСЃС‚Рё", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													sampSendChat("/healdisease "..playerid)
 												end
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Страховка и Защита", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "РЎС‚СЂР°С…РѕРІРєР° Рё Р—Р°С‰РёС‚Р°", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													sampSendChat("/healwound "..playerid)
 												end
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Выдать мед.карту", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "Р’С‹РґР°С‚СЊ РјРµРґ.РєР°СЂС‚Сѓ", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													sampSendChat("/givemc "..playerid)
 												end
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Найти мед.карту", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "РќР°Р№С‚Рё РјРµРґ.РєР°СЂС‚Сѓ", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													sampSendChat("/findmc "..nick)
 												end
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Годен", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "Р“РѕРґРµРЅ", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													sampSendChat("/updatemc "..playerid.." 1")
 												end
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Не годен", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "РќРµ РіРѕРґРµРЅ", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													sampSendChat("/updatemc "..playerid.." 0")
 												end
 												Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-												if ClickTheText(font, "Сменить пол", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
+												if ClickTheText(font, "РЎРјРµРЅРёС‚СЊ РїРѕР»", X3 + 30, Y3, 0xFFff9191, 0xFFFFFFFF) then
 													sampSendChat("/setsex "..playerid)
 												end
 											end
 										end
 
 										Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-										if ClickTheText(font, "Для рук-ва (7+)", X3, Y3, 0xFF5e5e5e, 0xFF4a4a4a) then
-											menu_2[playerid] = not menu_2[playerid] -- вкл выкл меню
+										if ClickTheText(font, "Р”Р»СЏ СЂСѓРє-РІР° (7+)", X3, Y3, 0xFF5e5e5e, 0xFF4a4a4a) then
+											menu_2[playerid] = not menu_2[playerid] -- РІРєР» РІС‹РєР» РјРµРЅСЋ
 											menu_1 = {}
 											menu_1o = {}
 											menu_1no = {}
@@ -1278,7 +1278,7 @@ function main()
 
 										if menu_2[playerid] then
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Онлайн", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
+											if ClickTheText(font, "РћРЅР»Р°Р№РЅ", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
 												sampSetChatInputText("/tr "..playerid)
 												sampSetChatInputEnabled(true)
 												setVirtualKeyDown(13, true)
@@ -1286,7 +1286,7 @@ function main()
 												setVirtualKeyDown(13, false)
 											end
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Чекнуть выговоры", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
+											if ClickTheText(font, "Р§РµРєРЅСѓС‚СЊ РІС‹РіРѕРІРѕСЂС‹", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
 												sampSetChatInputText("/rep "..playerid)
 												sampSetChatInputEnabled(true)
 												setVirtualKeyDown(13, true)
@@ -1294,7 +1294,7 @@ function main()
 												setVirtualKeyDown(13, false)
 											end
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Выдать выговор", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
+											if ClickTheText(font, "Р’С‹РґР°С‚СЊ РІС‹РіРѕРІРѕСЂ", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
 												sampSetChatInputText("/rep add "..playerid)
 												sampSetChatInputEnabled(true)
 												setVirtualKeyDown(13, true)
@@ -1302,7 +1302,7 @@ function main()
 												setVirtualKeyDown(13, false)
 											end
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Убрать выговор", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
+											if ClickTheText(font, "РЈР±СЂР°С‚СЊ РІС‹РіРѕРІРѕСЂ", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
 												sampSetChatInputText("/rep del "..playerid)
 												sampSetChatInputEnabled(true)
 												setVirtualKeyDown(13, true)
@@ -1310,7 +1310,7 @@ function main()
 												setVirtualKeyDown(13, false)
 											end
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Чекнуть ЧС", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
+											if ClickTheText(font, "Р§РµРєРЅСѓС‚СЊ Р§РЎ", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
 												sampSetChatInputText("/bl "..playerid)
 												sampSetChatInputEnabled(true)
 												setVirtualKeyDown(13, true)
@@ -1318,7 +1318,7 @@ function main()
 												setVirtualKeyDown(13, false)
 											end
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Добавить в ЧС", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
+											if ClickTheText(font, "Р”РѕР±Р°РІРёС‚СЊ РІ Р§РЎ", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
 												sampSetChatInputText("/bl add "..playerid)
 												sampSetChatInputEnabled(true)
 												setVirtualKeyDown(13, true)
@@ -1326,7 +1326,7 @@ function main()
 												setVirtualKeyDown(13, false)
 											end
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Убрать из ЧС", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
+											if ClickTheText(font, "РЈР±СЂР°С‚СЊ РёР· Р§РЎ", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
 												sampSetChatInputText("/bl del "..playerid)
 												sampSetChatInputEnabled(true)
 												setVirtualKeyDown(13, true)
@@ -1334,7 +1334,7 @@ function main()
 												setVirtualKeyDown(13, false)
 											end
 											Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-											if ClickTheText(font, "Логи", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
+											if ClickTheText(font, "Р›РѕРіРё", X3 + 15, Y3, 0xff8c8c8c, 0xFFFFFFFF) then
 												sampSetChatInputText("/log "..playerid)
 												sampSetChatInputEnabled(true)
 												setVirtualKeyDown(13, true)
@@ -1347,13 +1347,13 @@ function main()
 										if ClickTheText(font, "Fast heal[RP]", X3, Y3, 0xffff0000, 0xFFFFFFFF) then
 											wait(250)
 											sampSetCursorMode(0)
-											sampSendChat("/do На поясе доктора мед.сумка.")
+											sampSendChat("/do РќР° РїРѕСЏСЃРµ РґРѕРєС‚РѕСЂР° РјРµРґ.СЃСѓРјРєР°.")
 											wait(1000)
-											sampSendChat("/me достал"..a.." пластину аспирина и маленькую бутылку воды")
+											sampSendChat("/me РґРѕСЃС‚Р°Р»"..a.." РїР»Р°СЃС‚РёРЅСѓ Р°СЃРїРёСЂРёРЅР° Рё РјР°Р»РµРЅСЊРєСѓСЋ Р±СѓС‚С‹Р»РєСѓ РІРѕРґС‹")
 											wait(1000)
-											sampSendChat("/me выдавил"..a.." из пластины таблетку")
+											sampSendChat("/me РІС‹РґР°РІРёР»"..a.." РёР· РїР»Р°СЃС‚РёРЅС‹ С‚Р°Р±Р»РµС‚РєСѓ")
 											wait(1000)
-											sampSendChat("/me передал"..a.." бутылку воды вместе с таблеткой")
+											sampSendChat("/me РїРµСЂРµРґР°Р»"..a.." Р±СѓС‚С‹Р»РєСѓ РІРѕРґС‹ РІРјРµСЃС‚Рµ СЃ С‚Р°Р±Р»РµС‚РєРѕР№")
 											wait(1000)
 											sampSendChat("/heal "..playerid)
 										end
@@ -1376,21 +1376,21 @@ function main()
 	end
 end
 
-sex = "{0328fc}Мужской"
+sex = "{0328fc}РњСѓР¶СЃРєРѕР№"
 a = ""
 la = ""
 if ini.Settings.sex == true then
-	sex = "{0328fc}Мужской"
+	sex = "{0328fc}РњСѓР¶СЃРєРѕР№"
 elseif ini.Settings.sex == false then
-	sex = "{ff459c}Женский"
-	a = "а"
-	la = "лa"
+	sex = "{ff459c}Р–РµРЅСЃРєРёР№"
+	a = "Р°"
+	la = "Р»a"
 end
 
 function zp()
 	if check_skin_local_player() then
 		paycheck()
-		local render_text = string.format("Зарплата:{008a00} %s", paycheck_money)
+		local render_text = string.format("Р—Р°СЂРїР»Р°С‚Р°:{008a00} %s", paycheck_money)
 		if ClickTheText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y, 0xFFFFFFFF, 0xFFFFFFFF) then
 		end
 	end
@@ -1398,7 +1398,7 @@ end
 
 function render_hud()
 	if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
-		local render_text = string.format("[СМЕНИТЬ ПОЗИЦИЮ]", -1)
+		local render_text = string.format("[РЎРњР•РќР�РўР¬ РџРћР—Р�Р¦Р�Р®]", -1)
 		set_pos_medic_hud()
 		if ClickTheText(fontPosButton, render_text, ini.Settings.hud_x, ini.Settings.hud_y + 120, 0xFF969696, 0xFFFFFFFF) then
 			medic_hud_pos = true
@@ -1425,13 +1425,13 @@ function render_chat()
 			
 		end
 		if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
-			local chatpostext = string.format("[СМЕНИТЬ ПОЗИЦИЮ]", -1)
+			local chatpostext = string.format("[РЎРњР•РќР�РўР¬ РџРћР—Р�Р¦Р�Р®]", -1)
 			y = y + renderGetFontDrawHeight(font)
 			if ClickTheText(fontPosButton, chatpostext, ini.Settings.ChatPosX, y, 0xFF969696, 0xFFFFFFFF) then
 				medic_chat_pos = true
 				wait(100)
 			end
-			local chatpostext = string.format("Размер: "..ini.Settings.ChatFontSize, -1)
+			local chatpostext = string.format("Р Р°Р·РјРµСЂ: "..ini.Settings.ChatFontSize, -1)
 			ClickTheText(fontPosButton, chatpostext, ini.Settings.ChatPosX + 160, y, 0xFF969696)
 
 			local chatpostext = string.format("+", -1)
@@ -1450,7 +1450,7 @@ function render_chat()
 			if ClickTheText(fontPosButton, rtext, ini.Settings.ChatPosX + 300, y, 0xFF969696, 0xFFFFFFFF) then
 				wait(250)
 				sampSetCursorMode(0)
-				sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+				sampSendChat("/seeme РїСЂРѕР±РѕСЂРјРѕС‚Р°Р»"..a.." С‡С‚Рѕ-С‚Рѕ РІ СЂР°С†РёСЋ")
 				wait(0)
 				sampSetChatInputText("/r "..ini.Info.tag.." | ")
 				sampSetChatInputEnabled(true)
@@ -1470,7 +1470,7 @@ medc = 0
 function counter()
 	lua_thread.create(function()
 		if check_skin_local_player() then
-			local render_text = string.format("Осмотрено: "..osmot, -1)
+			local render_text = string.format("РћСЃРјРѕС‚СЂРµРЅРѕ: "..osmot, -1)
 			set_pos_medic_hud()
 			if ClickTheText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y + 25, 0xFFFFFFFF, 0xFFFFFFFF) then
 			end
@@ -1487,7 +1487,7 @@ function counter()
 		end
 
 		if check_skin_local_player() then
-			local render_text = string.format("Мед.карт: "..medc, -1)
+			local render_text = string.format("РњРµРґ.РєР°СЂС‚: "..medc, -1)
 			if ClickTheText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y + 50, 0xFFFFFFFF, 0xFFFFFFFF) then
 			end
 		end
@@ -1547,32 +1547,32 @@ for o = 1, 11 do timestamparr[o] = "" end
 function sampev.onServerMessage(color, message)
 	local _, mid = sampGetPlayerIdByCharHandle(PLAYER_PED)
 	local mynick = sampGetPlayerNickname(mid)
-	if message:find("Вы заработали %d+ вирт. Деньги будут зачислены на ваш банковский счет в") then
-		local number = message:match("Вы заработали (%d+) вирт. Деньги будут зачислены на ваш банковский счет в")
+	if message:find("Р’С‹ Р·Р°СЂР°Р±РѕС‚Р°Р»Рё %d+ РІРёСЂС‚. Р”РµРЅСЊРіРё Р±СѓРґСѓС‚ Р·Р°С‡РёСЃР»РµРЅС‹ РЅР° РІР°С€ Р±Р°РЅРєРѕРІСЃРєРёР№ СЃС‡РµС‚ РІ") then
+		local number = message:match("Р’С‹ Р·Р°СЂР°Р±РѕС‚Р°Р»Рё (%d+) РІРёСЂС‚. Р”РµРЅСЊРіРё Р±СѓРґСѓС‚ Р·Р°С‡РёСЃР»РµРЅС‹ РЅР° РІР°С€ Р±Р°РЅРєРѕРІСЃРєРёР№ СЃС‡РµС‚ РІ")
 		if os.time() - paycheck_antiflood <= 1 then
 			paycheck_money = number
 			return false
 		end
 	end
-	if message:find('Не флуди!') then
+	if message:find('РќРµ С„Р»СѓРґРё!') then
         return false
     end
-	if message:match("Медик "..mynick.." вылечил .+") then
+	if message:match("РњРµРґРёРє "..mynick.." РІС‹Р»РµС‡РёР» .+") then
 		osmot = osmot + 1
 	end
-	if message:match("Медкарта обновлена") then
+	if message:match("РњРµРґРєР°СЂС‚Р° РѕР±РЅРѕРІР»РµРЅР°") then
 		medc = medc + 1
 	end
-	if message:match("Медкарта создана") then
+	if message:match("РњРµРґРєР°СЂС‚Р° СЃРѕР·РґР°РЅР°") then
 		medc = medc + 1
 	end
-	if message:match("Вы вылечили пациента .+") then
+	if message:match("Р’С‹ РІС‹Р»РµС‡РёР»Рё РїР°С†РёРµРЅС‚Р° .+") then
 		osmot = osmot + 1
 	end
-	if message:match("Пациент вылечен от болезни .+") then
+	if message:match("РџР°С†РёРµРЅС‚ РІС‹Р»РµС‡РµРЅ РѕС‚ Р±РѕР»РµР·РЅРё .+") then
 		osmot = osmot + 1
 	end
-	if message:match("Сеанс лечения от болезни .+") then
+	if message:match("РЎРµР°РЅСЃ Р»РµС‡РµРЅРёСЏ РѕС‚ Р±РѕР»РµР·РЅРё .+") then
 		osmot = osmot + 1
 	end
 
@@ -1588,13 +1588,13 @@ function sampev.onServerMessage(color, message)
 	end
 
 
-	if message:find(" Всего сеансов у этого пациента: (%d+) / (%d+)") then
-		local number1, number2 = message:match(" Всего сеансов у этого пациента: (%d+) / (%d+)")
+	if message:find(" Р’СЃРµРіРѕ СЃРµР°РЅСЃРѕРІ Сѓ СЌС‚РѕРіРѕ РїР°С†РёРµРЅС‚Р°: (%d+) / (%d+)") then
+		local number1, number2 = message:match(" Р’СЃРµРіРѕ СЃРµР°РЅСЃРѕРІ Сѓ СЌС‚РѕРіРѕ РїР°С†РёРµРЅС‚Р°: (%d+) / (%d+)")
 		local ostalnum = number2 - number1
 			lua_thread.create(function()
-				sampSendChat("/b Еще "..ostalnum.." укол(а/ов)")
+				sampSendChat("/b Р•С‰Рµ "..ostalnum.." СѓРєРѕР»(Р°/РѕРІ)")
 				wait(500)
-				sampSendChat("/b Следующий укол после PayDay")
+				sampSendChat("/b РЎР»РµРґСѓСЋС‰РёР№ СѓРєРѕР» РїРѕСЃР»Рµ PayDay")
 			end)
 	end
 		
@@ -1615,12 +1615,12 @@ function timer(act)
 	if check_skin_local_player() then
 		lua_thread.create(function()
 			if act == true then
-				toggletext = "{33bf00}Вкл"
+				toggletext = "{33bf00}Р’РєР»"
 				if check_skin_local_player() then
 					for k,v, pk, tl in pairs(timers_warn, timers_warnoff) do
 						if warn == false and  time == v then
 							sampSetCursorMode(0)
-							sampAddChatMessage("{ff263c}[Medic] {FFFFFF}Автоматический доклад через 15 сек", -1)
+							sampAddChatMessage("{ff263c}[Medic] {FFFFFF}РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРёР№ РґРѕРєР»Р°Рґ С‡РµСЂРµР· 15 СЃРµРє", -1)
 							warn = true
 						elseif time == tl then
 							warn = false
@@ -1630,13 +1630,13 @@ function timer(act)
 						if doklad == false and time == lu then
 							if location == " " then
 								sampSetCursorMode(0)
-								sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-								sampSetChatInputText("/r "..ini.Info.tag.." | Регистратура: "..ini.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: "..partners.."")
+								sampSendChat("/seeme РїСЂРѕР±РѕСЂРјРѕС‚Р°Р»"..a.." С‡С‚Рѕ-С‚Рѕ РІ СЂР°С†РёСЋ")
+								sampSetChatInputText("/r "..ini.Info.tag.." | Р РµРіРёСЃС‚СЂР°С‚СѓСЂР°: "..ini.Info.reg.." | РћСЃРјРѕС‚СЂРµРЅРѕ: "..osmot.." | РњРµРґ.РєР°СЂС‚: "..medc.." | РќР°РїР°СЂРЅРёРє: "..partners.."")
 								sampSetChatInputEnabled(true)
 							else
 								sampSetCursorMode(0)
-								sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-								sampSetChatInputText("/r "..ini.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: "..partners.."")
+								sampSendChat("/seeme РїСЂРѕР±РѕСЂРјРѕС‚Р°Р»"..a.." С‡С‚Рѕ-С‚Рѕ РІ СЂР°С†РёСЋ")
+								sampSetChatInputText("/r "..ini.Info.tag.." | "..location.." | РћСЃРјРѕС‚СЂРµРЅРѕ: "..osmot.." | РњРµРґ.РєР°СЂС‚: "..medc.." | РќР°РїР°СЂРЅРёРє: "..partners.."")
 								sampSetChatInputEnabled(true)
 							end
 							doklad = true
@@ -1655,13 +1655,13 @@ function timer(act)
 				for ka,vz, oi, yz in pairs(timers_warn, timers_warnoff) do
 					if warn == false and  time == vz then
 						sampSetCursorMode(0)
-						sampAddChatMessage("{ff263c}[Medic] {FFFFFF}Пора делать доклад", -1)
+						sampAddChatMessage("{ff263c}[Medic] {FFFFFF}РџРѕСЂР° РґРµР»Р°С‚СЊ РґРѕРєР»Р°Рґ", -1)
 						warn = true
 					elseif time == yz then
 						warn = false
 					end
 				end
-				toggletext = "{ff0000}Выкл"
+				toggletext = "{ff0000}Р’С‹РєР»"
 			end
 		end)
 	end
@@ -1671,7 +1671,7 @@ partners = "-"
 function partner()
 	lua_thread.create(function()
 		if check_skin_local_player() then
-			local partner_text = string.format("Напарник: "..partners)
+			local partner_text = string.format("РќР°РїР°СЂРЅРёРє: "..partners)
 			set_pos_medic_hud()
 			ClickTheText(font, partner_text, ini.Settings.hud_x, ini.Settings.hud_y + 75, 0xFFFFFFFF, 0xFFFFFFFF)
 			local ped = 0
@@ -1720,7 +1720,7 @@ function locations()
 			local _, myid = sampGetPlayerIdByCharHandle(PLAYER_PED)
 			local _, handle sampGetCharHandleBySampPlayerId(myid)
 
-			--Автовокзал ЛС
+			--РђРІС‚РѕРІРѕРєР·Р°Р» Р›РЎ
 			local avls1x = 1292
 			local avls1y = -1718
 			local avls1z = 13
@@ -1729,7 +1729,7 @@ function locations()
 			local avls2y = -1843
 			local avls2z = 30
 
-			--Мэрия
+			--РњСЌСЂРёСЏ
 			local may1x = 1394
 			local may1y = -1868
 			local may1z = 13
@@ -1738,7 +1738,7 @@ function locations()
 			local may2y = -1738
 			local may2z = 30
 
-			--Ферма 0
+			--Р¤РµСЂРјР° 0
 			local farm01x = -592
 			local farm01y = -1288
 			local farm01z = 0
@@ -1747,7 +1747,7 @@ function locations()
 			local farm02y = -1500
 			local farm02z = 30
 
-			--АШ
+			--РђРЁ
 			local ash1x = -2013
 			local ash1y = -76
 			local ash1z = 30
@@ -1756,7 +1756,7 @@ function locations()
 			local ash2y = -280
 			local ash2z = 50
 
-			--Автовокзал СФ
+			--РђРІС‚РѕРІРѕРєР·Р°Р» РЎР¤
 			local sfav1x = -2001
 			local sfav1y = 218
 			local sfav1z = 10
@@ -1765,7 +1765,7 @@ function locations()
 			local sfav2y = 72
 			local sfav2z = 50
 
-			--ТП
+			--РўРџ
 			local tp1x = -1997
 			local tp1y = 536
 			local tp1z = 30
@@ -1774,7 +1774,7 @@ function locations()
 			local tp2y = 598
 			local tp2z = 50
 
-			--Оружейный завод
+			--РћСЂСѓР¶РµР№РЅС‹Р№ Р·Р°РІРѕРґ
 			local ozav1x = -2009
 			local ozav1y = -196
 			local ozav1z = 30
@@ -1783,7 +1783,7 @@ function locations()
 			local ozav2y = -280
 			local ozav2z = 50
 
-			--Казино
+			--РљР°Р·РёРЅРѕ
 			local kaz1x = 2158
 			local kaz1y = 2203
 			local kaz1z = 0
@@ -1792,7 +1792,7 @@ function locations()
 			local kaz2y = 2027
 			local kaz2z = 50
 
-			--Автовокзал ЛВ
+			--РђРІС‚РѕРІРѕРєР·Р°Р» Р›Р’
 			local avlv1x = 2859
 			local avlv1y = 1382
 			local avlv1z = 0
@@ -1801,7 +1801,7 @@ function locations()
 			local avlv2y = 1224
 			local avlv2z = 50
 
-			--ЛС
+			--Р›РЎ
 			local ls1x = 2930
 			local ls1y = -2740
 			local ls1z = 0
@@ -1810,7 +1810,7 @@ function locations()
 			local ls2y = -890
 			local ls2z = 250
 
-			--СФ
+			--РЎР¤
 			local sf1x = -1344
 			local sf1y = -1065
 			local sf1z = 250
@@ -1819,7 +1819,7 @@ function locations()
 			local sf2y = 1487
 			local sf2z = 0
 
-			--ЛВ
+			--Р›Р’
 			local lv1x = 842
 			local lv1y = 2947
 			local lv1z = 250
@@ -1829,29 +1829,29 @@ function locations()
 			local lv2z = 0
 
 			if isCharInArea3d(PLAYER_PED, avls1x, avls1y, avls1z, avls2x, avls2y, avls2z) == true then
-				location = "Пост: Автовокзал ЛС"
+				location = "РџРѕСЃС‚: РђРІС‚РѕРІРѕРєР·Р°Р» Р›РЎ"
 			elseif isCharInArea3d(PLAYER_PED, may1x, may1y, may1z, may2x, may2y, may2z) == true then
-				location = "Пост: Мэрия"
+				location = "РџРѕСЃС‚: РњСЌСЂРёСЏ"
 			elseif isCharInArea3d(PLAYER_PED, farm01x, farm01y, afarm01z, farm02x, farm02y, farm02z) == true then
-				location = "Пост: Ферма 0"
+				location = "РџРѕСЃС‚: Р¤РµСЂРјР° 0"
 			elseif isCharInArea3d(PLAYER_PED, ash1x, ash1y, ash1z, ash2x, ash2y, ash2z) == true then
-				location = "Пост: Автошкола"
+				location = "РџРѕСЃС‚: РђРІС‚РѕС€РєРѕР»Р°"
 			elseif isCharInArea3d(PLAYER_PED, sfav1x, sfav1y, sfav1z, sfav2x, sfav2y, sfav2z) == true then
-				location = "Пост: Автовокзал СФ"
+				location = "РџРѕСЃС‚: РђРІС‚РѕРІРѕРєР·Р°Р» РЎР¤"
 			elseif isCharInArea3d(PLAYER_PED, tp1x, tp1y, tp1z, tp2x, tp2y, tp2z) == true then
-				location = "Пост: Торговая площадка"
+				location = "РџРѕСЃС‚: РўРѕСЂРіРѕРІР°СЏ РїР»РѕС‰Р°РґРєР°"
 			elseif isCharInArea3d(PLAYER_PED, ozav1x, ozav1y, ozav1z, ozav2x, ozav2y, ozav2z) == true then
-				location = "Пост: Оружейный завод"
+				location = "РџРѕСЃС‚: РћСЂСѓР¶РµР№РЅС‹Р№ Р·Р°РІРѕРґ"
 			elseif isCharInArea3d(PLAYER_PED, kaz1x, kaz1y, kaz1z, kaz2x, kaz2y, kaz2z) == true then
-				location = "Пост: Казино"
+				location = "РџРѕСЃС‚: РљР°Р·РёРЅРѕ"
 			elseif isCharInArea3d(PLAYER_PED, avlv1x, avlv1y, avlv1z, avlv2x, avlv2y, avlv2z) == true then
-				location = "Пост: Автовокзал ЛВ"
+				location = "РџРѕСЃС‚: РђРІС‚РѕРІРѕРєР·Р°Р» Р›Р’"
 			elseif isCharInArea3d(PLAYER_PED, ls1x, ls1y, ls1z, ls2x, ls2y, ls2z) == true then
-				location = "Патруль: LS"
+				location = "РџР°С‚СЂСѓР»СЊ: LS"
 			elseif isCharInArea3d(PLAYER_PED, sf1x, sf1y, sf1z, sf2x, sf2y, sf2z) == true then
-				location = "Патруль: SF"
+				location = "РџР°С‚СЂСѓР»СЊ: SF"
 			elseif isCharInArea3d(PLAYER_PED, lv1x, lv1y, lv1z, lv2x, lv2y, lv2z) == true then
-				location = "Патруль: LV"
+				location = "РџР°С‚СЂСѓР»СЊ: LV"
 			else
 				location = " "
 			end
