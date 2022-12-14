@@ -1,6 +1,7 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.6.7")
+script_version("1.6.8")
+local version = "1.6.8"
 local inicfg, ffi = require 'inicfg', require("ffi")
 local sampev = require "lib.samp.events"
 local wm = require('windows.message')
@@ -75,7 +76,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. Версия: 1.6.7", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. Версия: "..version.."", -1)
 
 	chatfont = renderCreateFont(ini.Settings.FontName, ini.Settings.ChatFontSize, ini.Settings.FontFlag)
 	font = renderCreateFont(ini.Settings.FontName, ini.Settings.FontSize, ini.Settings.FontFlag)
