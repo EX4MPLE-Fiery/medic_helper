@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.6.9")
+script_version("1.7.0")
 local inicfg, ffi = require 'inicfg', require("ffi")
 local sampev = require "lib.samp.events"
 local wm = require('windows.message')
@@ -75,7 +75,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.6.9", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.0", -1)
 
 	chatfont = renderCreateFont(ini.Settings.FontName, ini.Settings.ChatFontSize, ini.Settings.FontFlag)
 	font = renderCreateFont(ini.Settings.FontName, ini.Settings.FontSize, ini.Settings.FontFlag)
@@ -286,6 +286,46 @@ function main()
 					ini.Settings.ChatToggle = not ini.Settings.ChatToggle
 					inicfg.save(ini, "Medic")
 				end
+
+				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
+				rtext = "Размер: {FFFFFF}"..ini.Settings.FontSize
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+					sampShowDialog(6597, "Укажите нужный размер", "Укажите размер:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
+				end
+				result7, button7, _, FontSize = sampHasDialogRespond(6597)
+				if result7 then
+					if button7 == 1 then
+						if string.find(FontSize, "(%d+)") then
+							ini.Settings.FontSize = FontSize
+							inicfg.save(ini, "Medic")
+							thisScript():reload()
+						end
+						if #FontSize > 0 then
+							ini.Settings.FontSize = FontSize
+							inicfg.save(ini, "Medic")
+						end
+					end
+				end
+
+				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
+				rtext = "Flag: {FFFFFF}"..ini.Settings.FontFlag
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+					sampShowDialog(6598, "Укажите нужный размер", "Укажите размер:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
+				end
+				result8, button8, _, FontFlag = sampHasDialogRespond(6598)
+				if result8 then
+					if button8 == 1 then
+						if string.find(FontFlag, "(%d+)") then
+							ini.Settings.FontFlag = FontFlag
+							inicfg.save(ini, "Medic")
+							thisScript():reload()
+						end
+						if #FontFlag > 0 then
+							ini.Settings.FontFlag = FontFlag
+							inicfg.save(ini, "Medic")
+						end
+					end
+				end
 			end
 
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
@@ -454,8 +494,7 @@ function main()
 					end
 				end)
 			end
-
-			if r.ShowClients or ini.Settings.SkinButton then
+			if ini.Settings.SkinButton then
 				lua_thread.create(function()
 					if isKeyDown(vkeys.VK_END) then
 						thisScript():reload()
@@ -1509,6 +1548,7 @@ function paycheck()
 end
 
 
+
 function set_pos_medic_hud()
 	if medic_hud_pos == nil then return end
 	local x, y = getCursorPos()
@@ -1851,6 +1891,7 @@ function locations()
 		end
 	end)
 end
+
 
 function ClickTheText(font, text, posX, posY, color, colorA)
 	renderFontDrawText(font, text, posX, posY, color)
