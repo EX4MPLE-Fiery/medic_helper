@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.6.8")
+script_version("1.6.9")
 local inicfg, ffi = require 'inicfg', require("ffi")
 local sampev = require "lib.samp.events"
 local wm = require('windows.message')
@@ -75,7 +75,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.6.8", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.6.9", -1)
 
 	chatfont = renderCreateFont(ini.Settings.FontName, ini.Settings.ChatFontSize, ini.Settings.FontFlag)
 	font = renderCreateFont(ini.Settings.FontName, ini.Settings.FontSize, ini.Settings.FontFlag)
@@ -518,12 +518,8 @@ function main()
 									if ini.Settings.SkinButton then
 										X3, Y3 = convert3DCoordsToScreen(X3, Y3, Z3)
 
-										if ClickTheText(font, nick1, X3, Y3,  "0xFF"..color, "0xFF"..color) then
-											lua_thread.create(function()
-
-
-											end)
-										end
+										JustText(font, nick1, X3, Y3,  "0xFF"..color, "0xFF"..color)
+										
 										Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 										if ClickTheText(font, "Мед. меню", X3, Y3, 0xffff0000, 0xFFFFFFFF) then
 											menu_1[playerid] = not menu_1[playerid] -- вкл выкл меню
@@ -1391,8 +1387,7 @@ function zp()
 	if check_skin_local_player() then
 		paycheck()
 		local render_text = string.format("Зарплата:{008a00} %s", paycheck_money)
-		if ClickTheText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y, 0xFFFFFFFF, 0xFFFFFFFF) then
-		end
+		JustText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y, 0xFFFFFFFF, 0xFFFFFFFF)
 	end
 end
 
@@ -1432,7 +1427,7 @@ function render_chat()
 				wait(100)
 			end
 			local chatpostext = string.format("Размер: "..ini.Settings.ChatFontSize, -1)
-			ClickTheText(fontPosButton, chatpostext, ini.Settings.ChatPosX + 160, y, 0xFF969696)
+			JustText(fontPosButton, chatpostext, ini.Settings.ChatPosX + 160, y, 0xFF969696)
 
 			local chatpostext = string.format("+", -1)
 			if ClickTheText(fontPosButton, chatpostext, ini.Settings.ChatPosX + 240, y, 0xFF969696, 0xFFFFFFFF) then
@@ -1472,8 +1467,7 @@ function counter()
 		if check_skin_local_player() then
 			local render_text = string.format("Осмотрено: "..osmot, -1)
 			set_pos_medic_hud()
-			if ClickTheText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y + 25, 0xFFFFFFFF, 0xFFFFFFFF) then
-			end
+			JustText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y + 25, 0xFFFFFFFF, 0xFFFFFFFF)
 		end
 		if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
 			local render_text = string.format("+", -1)
@@ -1488,8 +1482,7 @@ function counter()
 
 		if check_skin_local_player() then
 			local render_text = string.format("Мед.карт: "..medc, -1)
-			if ClickTheText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y + 50, 0xFFFFFFFF, 0xFFFFFFFF) then
-			end
+			JustText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y + 50, 0xFFFFFFFF, 0xFFFFFFFF)
 		end
 		if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
 			local render_text = string.format("+", -1)
@@ -1673,7 +1666,7 @@ function partner()
 		if check_skin_local_player() then
 			local partner_text = string.format("Напарник: "..partners)
 			set_pos_medic_hud()
-			ClickTheText(font, partner_text, ini.Settings.hud_x, ini.Settings.hud_y + 75, 0xFFFFFFFF, 0xFFFFFFFF)
+			JustText(font, partner_text, ini.Settings.hud_x, ini.Settings.hud_y + 75, 0xFFFFFFFF, 0xFFFFFFFF)
 			local ped = 0
 			for playerid = 0, 999 do
 				if sampIsPlayerConnected(playerid) then
@@ -1715,7 +1708,7 @@ function locations()
 		if check_skin_local_player() then
 			local locationtext = location
 			set_pos_medic_hud()
-			ClickTheText(font, locationtext, ini.Settings.hud_x, ini.Settings.hud_y + 100, 0xFFFFFFFF, 0xFFFFFFFF)
+			JustText(font, locationtext, ini.Settings.hud_x, ini.Settings.hud_y + 100, 0xFFFFFFFF, 0xFFFFFFFF)
 
 			local _, myid = sampGetPlayerIdByCharHandle(PLAYER_PED)
 			local _, handle sampGetCharHandleBySampPlayerId(myid)
@@ -1870,4 +1863,12 @@ function ClickTheText(font, text, posX, posY, color, colorA)
 		return true
 	  end
 	end
+end
+
+function JustText(font, text, posX, posY, color, colorA)
+	renderFontDrawText(font, text, posX, posY, color)
+	local textLenght = renderGetFontDrawTextLength(font, text)
+	local textHeight = renderGetFontDrawHeight(font)
+	local curX, curY = getCursorPos()
+	renderFontDrawText(font, text, posX, posY, colorA)
 end
