@@ -1,7 +1,8 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.7.1")
-local inicfg, ffi = require 'inicfg', require("ffi")
+script_version("1.7.2")
+local setcfg, ffi = require 'inicfg', require("ffi")
+local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
 local wm = require('windows.message')
 local vkeys = require 'lib.vkeys'
@@ -26,7 +27,7 @@ if enable_autoupdate then
     end
 end
 ffi.cdef [[ bool SetCursorPos(int X, int Y); ]]
-local ini = inicfg.load({
+local set = setcfg.load({
 Settings = {
 	SkinButton = true,
 	FontName = 'Arial',
@@ -34,7 +35,6 @@ Settings = {
 	FontFlag = 13,
 	Color1 = "FFFFFF",
 	Color2 = "e89f00",
-	Key = 2,
 	hud_x = 1.0,
 	hud_y = 1.0,
 	hudtoggle = true,
@@ -47,16 +47,22 @@ Settings = {
 	ChatToggle = true,
 	ChatAnsToggle = true,
 },
+})
+if setcfg.load(nil, "MedicSettings") == nil then setcfg.save(set, "MedicSettings") end
+local set = setcfg.load(nil, "MedicSettings")
+
+local info = infocfg.load({
 Info = {
 	rank = "Мед.работник",
 	clist = "18",
 	tag = "Student MoH",
 	reg = "SFMC",
-	sex = true
+	sex = true,
+	Key = 2,
 }
 })
-if inicfg.load(nil, "Medic") == nil then inicfg.save(ini, "Medic") end
-local ini = inicfg.load(nil, "Medic")
+if infocfg.load(nil, "MedicInfo") == nil then infocfg.save(info, "MedicInfo") end
+local info = infocfg.load(nil, "MedicInfo")
 
 skins = { 308, 70, 219, 274, 275, 276 }
 function check_skin_local_player()
@@ -78,13 +84,13 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.1", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.2", -1)
 
-	chatfont = renderCreateFont(ini.Settings.FontName, ini.Settings.ChatFontSize, ini.Settings.FontFlag)
-	font = renderCreateFont(ini.Settings.FontName, ini.Settings.FontSize, ini.Settings.FontFlag)
-	fontPosButton = renderCreateFont(ini.Settings.FontName, ini.Settings.FontSize - 2, ini.Settings.FontFlag)
-	fontChatPosButton = renderCreateFont(ini.Settings.ChatFontName, ini.Settings.ChatFontSize - 2, ini.Settings.ChatFontFlag)
-	fontpmbuttons = renderCreateFont(ini.Settings.FontName, ini.Settings.FontSize + 2, ini.Settings.FontFlag)
+	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
+	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
+	fontPosButton = renderCreateFont(set.Settings.FontName, set.Settings.FontSize - 2, set.Settings.FontFlag)
+	fontChatPosButton = renderCreateFont(set.Settings.ChatFontName, set.Settings.ChatFontSize, set.Settings.ChatFontFlag)
+	fontpmbuttons = renderCreateFont(set.Settings.FontName, set.Settings.FontSize + 2, set.Settings.FontFlag)
 
 	sampRegisterChatCommand("medic_hud_pos",function()
 		medic_hud_pos = true	
@@ -97,19 +103,19 @@ function main()
 	while true do
 		wait(0)
 		timer(toggle)
-		if ini.Settings.ChatToggle then
+		if set.Settings.ChatToggle then
 			ChatToggleText = "{33bf00}Вкл"
 			render_chat()
 		else 
 			ChatToggleText = "{ff0000}Выкл"
 		end
-		if ini.Settings.zptoggle then
+		if set.Settings.zptoggle then
 			ZpToggleText = "{33bf00}Вкл"
 			zp()
 		else
 			ZpToggleText = "{ff0000}Выкл"
 		end
-		if ini.Settings.hudtoggle then
+		if set.Settings.hudtoggle then
 			hudtoggletext = "{33bf00}Вкл"
 			render_hud()
 			counter()
@@ -117,7 +123,7 @@ function main()
 		else
 			hudtoggletext = "{ff0000}Выкл"
 		end
-		if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
+		if (isKeyDown(info.Info.Key) and check_skin_local_player()) then
 			local X, Y = getScreenResolution()
 			Y = Y / 3
 			X = X - renderGetFontDrawTextLength(font, " ")
@@ -171,13 +177,13 @@ function main()
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Пол: {FFFFFF}"..sex
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
-					ini.Settings.sex = not ini.Settings.sex
-					inicfg.save(ini, "Medic")
+					info.Info.sex = not info.Info.sex
+					infocfg.save(info, "MedicInfo")
 					thisScript():reload()
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Должность: {FFFFFF}"..ini.Info.rank
+				rtext = "Должность: {FFFFFF}"..info.Info.rank
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
 					sampShowDialog(6406, "Укажите вашу должность", "Ваша должность:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
@@ -185,19 +191,19 @@ function main()
 				if result1 then
 					if button1 == 1 then
 						if string.find(rank, "(.+)") then
-							ini.Info.rank = rank
-							inicfg.save(ini, "Medic")
+							info.Info.rank = rank
+							infocfg.save(info, "MedicInfo")
 							thisScript():reload()
 						end
 						if #rank > 0 then
-							ini.Info.rank = rank
-							inicfg.save(ini, "Medic")
+							info.Info.rank = rank
+							infocfg.save(info, "MedicInfo")
 						end
 					end
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Тэг: {FFFFFF}"..ini.Info.tag
+				rtext = "Тэг: {FFFFFF}"..info.Info.tag
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
 					sampShowDialog(6410, "Укажите ваш тэг", "Ваш тэг:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
@@ -205,19 +211,19 @@ function main()
 				if result2 then
 					if button2 == 1 then
 						if string.find(tag, "(.+)") then
-							ini.Info.tag = tag
-							inicfg.save(ini, "Medic")
+							info.Info.tag = tag
+							infocfg.save(info, "MedicInfo")
 							thisScript():reload()
 						end
 						if #tag > 0 then
-							ini.Info.tag = tag
-							inicfg.save(ini, "Medic")
+							info.Info.tag = tag
+							infocfg.save(info, "MedicInfo")
 						end
 					end
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Бейдж: {FFFFFF}"..ini.Info.clist
+				rtext = "Бейдж: {FFFFFF}"..info.Info.clist
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
 					sampShowDialog(6411, "Укажите ваш бейдж", "Ваш бейдж:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
@@ -225,19 +231,19 @@ function main()
 				if result3 then
 					if button3 == 1 then
 						if string.find(clist, "(.+)") then
-							ini.Info.clist = clist
-							inicfg.save(ini, "Medic")
+							info.Info.clist = clist
+							infocfg.save(info, "MedicInfo")
 							thisScript():reload()
 						end
 						if #clist > 0 then
-							ini.Info.clist = clist
-							inicfg.save(ini, "Medic")
+							info.Info.clist = clist
+							infocfg.save(info, "MedicInfo")
 						end
 					end
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Больница: {FFFFFF}"..ini.Info.reg
+				rtext = "Больница: {FFFFFF}"..info.Info.reg
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
 					sampShowDialog(6412, "Укажите вашу регистратуру", "Ваша регистратура:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
@@ -245,13 +251,13 @@ function main()
 				if result4 then
 					if button4 == 1 then
 						if string.find(reg, "(.+)") then
-							ini.Info.reg = reg
-							inicfg.save(ini, "Medic")
+							info.Info.reg = reg
+							infocfg.save(info, "MedicInfo")
 							thisScript():reload()
 						end
 						if #reg > 0 then
-							ini.Info.reg = reg
-							inicfg.save(ini, "Medic")
+							info.Info.reg = reg
+							infocfg.save(info, "MedicInfo")
 						end
 					end
 				end
@@ -272,26 +278,26 @@ function main()
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Зарплата "..ZpToggleText
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
-					ini.Settings.zptoggle = not ini.Settings.zptoggle
-					inicfg.save(ini, "Medic")
+					set.Settings.zptoggle = not set.Settings.zptoggle
+					setcfg.save(set, "MedicSettings")
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "HUD "..hudtoggletext
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
-					ini.Settings.hudtoggle = not ini.Settings.hudtoggle
-					inicfg.save(ini, "Medic")
+					set.Settings.hudtoggle = not set.Settings.hudtoggle
+					setcfg.save(set, "MedicSettings")
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Chat "..ChatToggleText
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
-					ini.Settings.ChatToggle = not ini.Settings.ChatToggle
-					inicfg.save(ini, "Medic")
+					set.Settings.ChatToggle = not set.Settings.ChatToggle
+					setcfg.save(set, "MedicSettings")
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Размер: {FFFFFF}"..ini.Settings.FontSize
+				rtext = "Размер: {FFFFFF}"..set.Settings.FontSize
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					sampShowDialog(6597, "Укажите нужный размер", "Укажите размер:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
@@ -299,19 +305,19 @@ function main()
 				if result7 then
 					if button7 == 1 then
 						if string.find(FontSize, "(%d+)") then
-							ini.Settings.FontSize = FontSize
-							inicfg.save(ini, "Medic")
+							set.Settings.FontSize = FontSize
+							setcfg.save(set, "MedicSettings")
 							thisScript():reload()
 						end
 						if #FontSize > 0 then
-							ini.Settings.FontSize = FontSize
-							inicfg.save(ini, "Medic")
+							set.Settings.FontSize = FontSize
+							setcfg.save(set, "MedicSettings")
 						end
 					end
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Flag: {FFFFFF}"..ini.Settings.FontFlag
+				rtext = "Flag: {FFFFFF}"..set.Settings.FontFlag
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					sampShowDialog(6598, "Укажите нужный размер", "Укажите размер:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
@@ -319,13 +325,13 @@ function main()
 				if result8 then
 					if button8 == 1 then
 						if string.find(FontFlag, "(%d+)") then
-							ini.Settings.FontFlag = FontFlag
-							inicfg.save(ini, "Medic")
+							set.Settings.FontFlag = FontFlag
+							setcfg.save(set, "MedicSettings")
 							thisScript():reload()
 						end
 						if #FontFlag > 0 then
-							ini.Settings.FontFlag = FontFlag
-							inicfg.save(ini, "Medic")
+							set.Settings.FontFlag = FontFlag
+							setcfg.save(set, "MedicSettings")
 						end
 					end
 				end
@@ -351,7 +357,7 @@ function main()
 						sampSetCursorMode(0)
 						sampSendChat("/todo Здравствуйте! Я доктор "..surname.."! *улыбаясь")
 						wait(1000)
-						sampSendChat("/do На бейджике: "..ini.Info.tag.." | Доктор "..surname.." | "..ini.Info.rank.."")
+						sampSendChat("/do На бейджике: "..info.Info.tag.." | Доктор "..surname.." | "..info.Info.rank.."")
 						wait(1000)
 						sampSendChat("Что Вас беспокоит?")
 					end
@@ -383,9 +389,9 @@ function main()
 						wait(1000)
 						sampSendChat("/me надел"..a.." бейджик")
 						wait(1000)
-						sampSendChat("/do На бейджике: "..ini.Info.tag.." | Доктор "..surname.." | "..ini.Info.rank.."")
+						sampSendChat("/do На бейджике: "..info.Info.tag.." | Доктор "..surname.." | "..info.Info.rank.."")
 						wait(1000)
-						sampSendChat("/clist "..ini.Info.clist.."")
+						sampSendChat("/clist "..info.Info.clist.."")
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
@@ -395,9 +401,9 @@ function main()
 						sampSetCursorMode(0)
 						sampSendChat("/me поправил"..a.." бейджик")
 						wait(1000)
-						sampSendChat("/do На бейджике: "..ini.Info.tag.." | Доктор "..surname.." | "..ini.Info.rank.."")
+						sampSendChat("/do На бейджике: "..info.Info.tag.." | Доктор "..surname.." | "..info.Info.rank.."")
 						wait(1000)
-						sampSendChat("/clist "..ini.Info.clist.."")
+						sampSendChat("/clist "..info.Info.clist.."")
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
@@ -407,7 +413,7 @@ function main()
 						sampSetCursorMode(0)
 						sampSendChat("/seeme говорит в рацию")
 						wait(0)
-						sampSetChatInputText("/r "..ini.Info.tag.." | Занимаю регистратуру "..ini.Info.reg.."")
+						sampSetChatInputText("/r "..info.Info.tag.." | Занимаю регистратуру "..info.Info.reg.."")
 						sampSetChatInputEnabled(true)
 					end
 
@@ -418,7 +424,7 @@ function main()
 						sampSetCursorMode(0)
 						sampSendChat("/seeme говорит в рацию")
 						wait(0)
-						sampSetChatInputText("/r "..ini.Info.tag.." | Покидаю регистратуру "..ini.Info.reg.."")
+						sampSetChatInputText("/r "..info.Info.tag.." | Покидаю регистратуру "..info.Info.reg.."")
 						sampSetChatInputEnabled(true)
 					end
 
@@ -460,7 +466,7 @@ function main()
 						sampSetCursorMode(0)
 						sampSendChat("/seeme делает доклад в рацию")
 						wait(1500)
-						sampSetChatInputText("/r "..ini.Info.tag.." | Регистратура: "..ini.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+						sampSetChatInputText("/r "..info.Info.tag.." | Регистратура: "..info.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
 						sampSetChatInputEnabled(true)
 					end
 
@@ -471,7 +477,7 @@ function main()
 						sampSetCursorMode(0)
 						sampSendChat("/seeme делает доклад в рацию")
 						wait(1500)
-						sampSetChatInputText("/r "..ini.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Бак: | Напарник: -")
+						sampSetChatInputText("/r "..info.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Бак: | Напарник: -")
 						sampSetChatInputEnabled(true)
 					end
 
@@ -482,7 +488,7 @@ function main()
 						sampSetCursorMode(0)
 						sampSendChat("/seeme делает доклад в рацию")
 						wait(1500)
-						sampSetChatInputText("/r "..ini.Info.tag.." | Военкомат:  | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+						sampSetChatInputText("/r "..info.Info.tag.." | Военкомат:  | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
 						sampSetChatInputEnabled(true)
 					end
 
@@ -493,11 +499,11 @@ function main()
 						sampSetCursorMode(0)
 						sampSendChat("/seeme делает доклад в рацию")
 						wait(1500)
-						sampSendChat("/r "..ini.Info.tag.." | Принял"..a.." вызов ")
+						sampSendChat("/r "..info.Info.tag.." | Принял"..a.." вызов ")
 					end
 				end)
 			end
-			if ini.Settings.SkinButton then
+			if set.Settings.SkinButton then
 				lua_thread.create(function()
 					if isKeyDown(vkeys.VK_END) then
 						thisScript():reload()
@@ -557,7 +563,7 @@ function main()
 
 									ped = ped + 1
 									local string = nick1.."["..playerid.."]   "
-									if ini.Settings.SkinButton then
+									if set.Settings.SkinButton then
 										X3, Y3 = convert3DCoordsToScreen(X3, Y3, Z3)
 
 										JustText(font, nick1, X3, Y3,  "0xFF"..color, "0xFF"..color)
@@ -843,7 +849,7 @@ function main()
 														sampSetCursorMode(0)
 														sampSendChat("/me достал"..a.." новые виниловые перчатки и надел"..a.." их")
 														wait(1500)
-														sampSendChat("/me помог(ла) пациенту лечь на операционный стол")
+														sampSendChat("/me помог"..la.." пациенту лечь на операционный стол")
 														wait(1500)
 														sampSendChat("/b Залезайте на стол и /anim 22")
 														wait(1500)
@@ -1089,7 +1095,7 @@ function main()
 														wait(1500)
 														sampSendChat("/me достал"..a.." бланк медицинской карты")
 														wait(1500)
-														sampSendChat("/me внес(ла) данные пациента")
+														sampSendChat("/me внес"..la.." данные пациента")
 														wait(1500)
 														sampSendChat("/givemc "..playerid)
 														wait(1500)
@@ -1129,7 +1135,7 @@ function main()
 														sampSetCursorMode(0)
 														sampSendChat("/me достал"..a.." экспресс-тест")
 														wait(1500)
-														sampSendChat("/do Доктор взял(a) анализ крови пациента.")
+														sampSendChat("/do Доктор взял"..a.." анализ крови пациента.")
 														wait(1500)
 														sampSendChat("/me провел"..a.." экспресс-тест на болезни")
 														wait(1500)
@@ -1417,76 +1423,77 @@ end
 sex = "{0328fc}Мужской"
 a = ""
 la = ""
-if ini.Settings.sex == true then
+if info.Info.sex == true then
 	sex = "{0328fc}Мужской"
-elseif ini.Settings.sex == false then
+elseif info.Info.sex == false then
 	sex = "{ff459c}Женский"
 	a = "а"
 	la = "лa"
 end
 
+
 function zp()
 	if check_skin_local_player() then
 		paycheck()
 		local render_text = string.format("Зарплата:{008a00} %s", paycheck_money)
-		JustText(font, render_text, ini.Settings.hud_x, ini.Settings.hud_y, 0xFFFFFFFF, 0xFFFFFFFF)
+		JustText(font, render_text, set.Settings.hud_x, set.Settings.hud_y, 0xFFFFFFFF, 0xFFFFFFFF)
 	end
 end
 
 function render_chat()
-		local y = ini.Settings.ChatPosY	
-		local ty = ini.Settings.ChatPosY
-		local x = ini.Settings.ChatPosX
+		local y = set.Settings.ChatPosY	
+		local ty = set.Settings.ChatPosY
+		local x = set.Settings.ChatPosX
 		if check_skin_local_player() then
 			set_pos_medic_chat()
 			for o = #timestamparr-10, #timestamparr do
-				if isKeyDown(ini.Settings.Key) then
+				if isKeyDown(info.Info.Key) then
 					ty = ty + renderGetFontDrawHeight(font)
-					renderFontDrawText(chatfont, timestamparr[o], (ini.Settings.ChatPosX - renderGetFontDrawTextLength(chatfont, timestamparr[o])), ty, 0xFF8D8DFF)
+					renderFontDrawText(chatfont, timestamparr[o], (set.Settings.ChatPosX - renderGetFontDrawTextLength(chatfont, timestamparr[o])), ty, 0xFF8D8DFF)
 				end
 			end
 			for i = #chat-10, #chat do
 				local rchatmsg = chat[i]
 				local rrank, rnick, rid, rmsg = rchatmsg:match(" (.+) (.+)%[(%d+)%]: (.+)")
 				y = y + renderGetFontDrawHeight(font)
-				if ini.Settings.ChatAnsToggle == true then
+				if set.Settings.ChatAnsToggle == true then
 					ChatAnsToggle = "Вкл"
-					if ClickTheText(chatfont, chat[i], ini.Settings.ChatPosX, y, 0xFF8D8DFF, 0xFFffffff) then
+					if ClickTheText(chatfont, chat[i], set.Settings.ChatPosX, y, 0xFF8D8DFF, 0xFFffffff) then
 						local rname, rsurname = string.match(rnick, "(.+)_(.+)")
-						sampSetChatInputText("/r "..ini.Info.tag.." | Доктор "..rsurname..", ")
+						sampSetChatInputText("/r "..info.Info.tag.." | Доктор "..rsurname..", ")
 						sampSetChatInputEnabled(true)
 					end
-				elseif ini.Settings.ChatAnsToggle == false then
+				elseif set.Settings.ChatAnsToggle == false then
 					ChatAnsToggle = "Выкл"
-					JustText(chatfont, chat[i], ini.Settings.ChatPosX, y, 0xFF8D8DFF)
+					JustText(chatfont, chat[i], set.Settings.ChatPosX, y, 0xFF8D8DFF)
 				end
 			end
 			
 		end
-		if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
+		if (isKeyDown(info.Info.Key) and check_skin_local_player()) then
 			chatpostext = string.format("[СМЕНИТЬ ПОЗИЦИЮ]  ", -1)
 			y = y + renderGetFontDrawHeight(font)
-			if ClickTheText(fontChatPosButton, chatpostext, ini.Settings.ChatPosX, y, 0xFF969696, 0xFFFFFFFF) then
+			if ClickTheText(fontChatPosButton, chatpostext, set.Settings.ChatPosX, y, 0xFF969696, 0xFFFFFFFF) then
 				medic_chat_pos = true
 				wait(100)
 			end
 			x = x + renderGetFontDrawTextLength(fontChatPosButton, chatpostext)
-			chatsizetext = string.format("Размер: "..ini.Settings.ChatFontSize.." ", -1)
+			chatsizetext = string.format("Размер: "..set.Settings.ChatFontSize.." ", -1)
 			JustText(fontChatPosButton, chatsizetext, x, y, 0xFFFFFFFF)
 
 			x = x + renderGetFontDrawTextLength(fontChatPosButton, chatsizetext)
 			chatsizeplustext = string.format(" + ", -1)
 			if ClickTheText(fontChatPosButton, chatsizeplustext, x, y, 0xFF969696, 0xFFFFFFFF) then
-				ini.Settings.ChatFontSize = ini.Settings.ChatFontSize + 1
-				inicfg.save(ini, "Medic")
+				set.Settings.ChatFontSize = set.Settings.ChatFontSize + 1
+				setcfg.save(set, "MedicSettings")
 				thisScript():reload()
 			end
 
 			x = x + renderGetFontDrawTextLength(fontChatPosButton, chatsizeplustext)
 			chatsizeminustext = string.format(" - ", -1)
 			if ClickTheText(fontChatPosButton, chatsizeminustext, x, y, 0xFF969696, 0xFFFFFFFF) then
-				ini.Settings.ChatFontSize = ini.Settings.ChatFontSize - 1
-				inicfg.save(ini, "Medic")
+				set.Settings.ChatFontSize = set.Settings.ChatFontSize - 1
+				setcfg.save(set, "MedicSettings")
 				thisScript():reload()
 			end
 
@@ -1496,7 +1503,7 @@ function render_chat()
 				wait(250)
 				sampSetCursorMode(0)
 				sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-				sampSetChatInputText("/r "..ini.Info.tag.." | ")
+				sampSetChatInputText("/r "..info.Info.tag.." | ")
 				sampSetChatInputEnabled(true)
 			end
 
@@ -1515,9 +1522,9 @@ function render_chat()
 
 			x = x + renderGetFontDrawTextLength(fontChatPosButton, AnsToggletext)  * 1.1
 			if ClickTheText(fontChatPosButton, ChatAnsToggle, x, y, 0xFF969696, 0xFFFFFFFF) then
-				ini.Settings.ChatAnsToggle = not ini.Settings.ChatAnsToggle
-				inicfg.save(ini, "Medic")
-				inicfg.load(ini, "Medic")
+				set.Settings.ChatAnsToggle = not set.Settings.ChatAnsToggle
+				setcfg.save(set, "MedicSettings")
+				setcfg.load(set, "MedicSettings")
 			end
 
 		end
@@ -1526,8 +1533,8 @@ end
 osmot = 0
 medc = 0
 function counter()
-	local Y = ini.Settings.hud_y
-	local X = ini.Settings.hud_x
+	local Y = set.Settings.hud_y
+	local X = set.Settings.hud_x
 	lua_thread.create(function()
 		if check_skin_local_player() then
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
@@ -1535,7 +1542,7 @@ function counter()
 			set_pos_medic_hud()
 			JustText(font, osmotreno, X, Y, 0xFFFFFFFF, 0xFFFFFFFF)
 		end
-		if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
+		if (isKeyDown(info.Info.Key) and check_skin_local_player()) then
 			local render_textosmotplus = string.format("+", -1)
 			if ClickTheText(fontpmbuttons, render_textosmotplus, (X + renderGetFontDrawTextLength(font, osmotreno) * 1.1), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 				osmot = osmot + 1
@@ -1551,7 +1558,7 @@ function counter()
 			medcarty = string.format("Мед.карт: "..medc, -1)
 			JustText(font, medcarty, X, Y, 0xFFFFFFFF, 0xFFFFFFFF)
 		end
-		if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
+		if (isKeyDown(info.Info.Key) and check_skin_local_player()) then
 			render_textmedplus = string.format("+", -1)
 			if ClickTheText(fontpmbuttons, render_textmedplus, (X + renderGetFontDrawTextLength(font, medcarty) * 1.1), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 				medc = medc + 1
@@ -1566,12 +1573,12 @@ function counter()
 end
 
 function render_hud()
-	local Y = ini.Settings.hud_y
-	if (isKeyDown(ini.Settings.Key) and check_skin_local_player()) then
+	local Y = set.Settings.hud_y
+	if (isKeyDown(info.Info.Key) and check_skin_local_player()) then
 		local render_textpos = string.format("[СМЕНИТЬ ПОЗИЦИЮ]", -1)
 		set_pos_medic_hud()
 		Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) * 4))
-		if ClickTheText(fontPosButton, render_textpos, ini.Settings.hud_x, Y, 0xFF969696, 0xFFFFFFFF) then
+		if ClickTheText(fontPosButton, render_textpos, set.Settings.hud_x, Y, 0xFF969696, 0xFFFFFFFF) then
 			medic_hud_pos = true
 			wait(100)
 		end
@@ -1580,7 +1587,7 @@ end
 
 paycheck_money = "0"
 function paycheck()
-	if ini.Settings.zptoggle then
+	if set.Settings.zptoggle then
 		if paycheck_antiflood == nil or os.time() - paycheck_antiflood > 60 then
 			paycheck_antiflood = os.time()
 			sampSendChat("/paycheck")
@@ -1593,22 +1600,22 @@ end
 function set_pos_medic_hud()
 	if medic_hud_pos == nil then return end
 	local x, y = getCursorPos()
-	ini.Settings.hud_x, ini.Settings.hud_y = x, y
+	set.Settings.hud_x, set.Settings.hud_y = x, y
 	sampSetCursorMode(3)
 	if wasKeyPressed(1) then
 		medic_hud_pos = nil
-		inicfg.save(ini, "Medic")
+		setcfg.save(set, "MedicSettings")
 	end
 end
 
 function set_pos_medic_chat()
 	if medic_chat_pos == nil then return end
 	local x, y = getCursorPos()
-	ini.Settings.ChatPosX, ini.Settings.ChatPosY = x, y
+	set.Settings.ChatPosX, set.Settings.ChatPosY = x, y
 	sampSetCursorMode(3)
 	if wasKeyPressed(1) then
 		medic_chat_pos = nil
-		inicfg.save(ini, "Medic")
+		setcfg.save(set, "MedicSettings")
 	end
 end
 
@@ -1652,7 +1659,7 @@ function sampev.onServerMessage(color, message)
 		osmot = osmot + 1
 	end
 
-	if ini.Settings.ChatToggle then
+	if set.Settings.ChatToggle then
 		local standartclr = -1920073729
 		local targetclr = color
 		local timestamp = "["..os.date("%H:%M:%S").."]"
@@ -1707,12 +1714,12 @@ function timer(act)
 							if location == " " then
 								sampSetCursorMode(0)
 								sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-								sampSetChatInputText("/r "..ini.Info.tag.." | Регистратура: "..ini.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+								sampSetChatInputText("/r "..info.Info.tag.." | Регистратура: "..info.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
 								sampSetChatInputEnabled(true)
 							else
 								sampSetCursorMode(0)
 								sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-								sampSetChatInputText("/r "..ini.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+								sampSetChatInputText("/r "..info.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
 								sampSetChatInputEnabled(true)
 							end
 							doklad = true
@@ -1746,13 +1753,13 @@ end
 
 location = " "
 function locations()
-	local y = ini.Settings.hud_y
+	local y = set.Settings.hud_y
 	lua_thread.create(function()
 		if check_skin_local_player() then
 			local locationtext = location
 			set_pos_medic_hud()
 			y = y + renderGetFontDrawHeight(font) * 3.3
-			JustText(font, locationtext, ini.Settings.hud_x, y, 0xFFFFFFFF, 0xFFFFFFFF)
+			JustText(font, locationtext, set.Settings.hud_x, y, 0xFFFFFFFF, 0xFFFFFFFF)
 
 			local _, myid = sampGetPlayerIdByCharHandle(PLAYER_PED)
 			local _, handle sampGetCharHandleBySampPlayerId(myid)
@@ -1903,7 +1910,7 @@ function ClickTheText(font, text, posX, posY, color, colorA)
 	local textHeight = renderGetFontDrawHeight(font)
 	local curX, curY = getCursorPos()
 	if curX >= posX and curX <= posX + textLenght and curY >= posY and curY <= posY + textHeight then
-	  renderFontDrawText(font, "{"..ini.Settings.Color2.."}"..text, posX, posY, colorA)
+	  renderFontDrawText(font, "{"..set.Settings.Color2.."}"..text, posX, posY, colorA)
 	  if isKeyJustPressed(1) then
 		return true
 	  end
