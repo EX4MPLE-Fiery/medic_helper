@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.7.2.2")
+script_version("1.7.3")
 local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
@@ -84,7 +84,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.2.2", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.3", -1)
 
 	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
 	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
@@ -565,7 +565,8 @@ function main()
 									local string = nick1.."["..playerid.."]   "
 									if set.Settings.SkinButton then
 										X3, Y3 = convert3DCoordsToScreen(X3, Y3, Z3)
-
+										Y3 = Y3 / 1.2
+										X3 = X3 / 1.1
 										JustText(font, nick1, X3, Y3,  "0xFF"..color, "0xFF"..color)
 										
 										Y3 = ((Y3 + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
