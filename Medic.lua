@@ -1,12 +1,14 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.7.3")
+script_version("1.7.4")
 local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
 local wm = require('windows.message')
 local vkeys = require 'lib.vkeys'
 local encoding = require "encoding"
+local imgui = require 'imgui'
+local main_window_state = imgui.ImBool(false)
 require "lib.moonloader"
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
@@ -76,6 +78,21 @@ function check_skin_local_player()
 	return result
 end
 
+function imgui.OnDrawFrame()
+	if main_window_state.v then -- чтение и запись значения такой переменной осуществляется через поле v (или Value)
+		imgui.SetNextWindowSize(imgui.ImVec2(500, 500), imgui.Cond.FirstUseEver) -- меняем размер
+		-- но для передачи значения по указателю - обязательно напрямую
+		-- тут main_window_state передаётся функции imgui.Begin, чтобы можно было отследить закрытие окна нажатием на крестик
+		imgui.Begin('My window', main_window_state)
+		imgui.Text('Hello world')
+		if imgui.Button('Press me') then -- а вот и кнопка с действием
+			-- условие будет выполнено при нажатии на неё
+			printStringNow('Button pressed!', 1000)
+		end
+	  	imgui.End()
+	end
+  end
+
 function main()
 	if not isSampLoaded() or not isSampfuncsLoaded() then return end
 	while not isSampAvailable() do wait(100) end	
@@ -84,7 +101,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.3", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.4", -1)
 
 	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
 	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
@@ -102,6 +119,12 @@ function main()
 
 	while true do
 		wait(0)
+
+		if wasKeyPressed(vkeys.VK_INSERT) then -- активация по нажатию клавиши X
+			main_window_state.v = not main_window_state.v -- переключаем статус активности окна, не забываем про .v
+		end
+		imgui.Process = main_window_state.v -- теперь значение imgui.Process всегда будет задаваться в зависимости от активности основного окна
+
 		timer(toggle)
 		if set.Settings.ChatToggle then
 			ChatToggleText = "{33bf00}Вкл"
@@ -294,6 +317,12 @@ function main()
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					set.Settings.ChatToggle = not set.Settings.ChatToggle
 					setcfg.save(set, "MedicSettings")
+				end
+
+				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
+				rtext = "Клавиша: "..info.Info.Key
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
@@ -502,6 +531,25 @@ function main()
 						sampSendChat("/r "..info.Info.tag.." | Принял"..a.." вызов ")
 					end
 				end)
+			end
+
+			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
+			rtext = "/r"
+			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y + 20, 0xFF8D8DFF, 0xFF8D8DFF) then
+				wait(250)
+				sampSetCursorMode(0)
+				sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+				sampSetChatInputText("/r "..info.Info.tag.." | ")
+				sampSetChatInputEnabled(true)
+			end
+
+			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
+			rbtext = "/rb"
+			if ClickTheText(font, rbtext, (X - renderGetFontDrawTextLength(font, rbtext.."  ")), Y + 20, 0xFF8D8DFF, 0xFF8D8DFF) then
+				wait(250)
+				sampSetCursorMode(0)
+				sampSetChatInputText("/rb ")
+				sampSetChatInputEnabled(true)
 			end
 			if set.Settings.SkinButton then
 				lua_thread.create(function()
@@ -1671,20 +1719,27 @@ function sampev.onServerMessage(color, message)
 		end
 	end
 
-
 	if message:find(" Всего сеансов у этого пациента: (%d+) / (%d+)") then
 		local number1, number2 = message:match(" Всего сеансов у этого пациента: (%d+) / (%d+)")
 		local ostalnum = number2 - number1
 			lua_thread.create(function()
-				sampSendChat("/b Еще "..ostalnum.." укол(а/ов)")
+				sampSendChat("/b Осталось уколов: "..ostalnum)
 				wait(500)
 				sampSendChat("/b Следующий укол после PayDay")
 			end)
 	end
-		
-
-
 end
+
+
+--[[function sampev.onSendCommand(message1)
+	if check_skin_local_player() then
+		if message1:find("/r .+") then
+			local msg1 = message1:match("/r (.+)")
+			sampSendChat("/r "..info.Info.tag.." | "..msg1.."")
+		end
+	end
+end]]
+
 
 toggle = false
 warn = false
