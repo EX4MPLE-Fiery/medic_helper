@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.7.5.1")
+script_version("1.7.5.2")
 local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
@@ -102,7 +102,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.5.1", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.5.2", -1)
 
 	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
 	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
@@ -1642,13 +1642,13 @@ function render_chat()
 					wait(250)
 					sampSetCursorMode(0)
 					sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-					sampSetChatInputText("/r Доктор "..rsurname..", ")
+					sampSetChatInputText("/r ")
 					sampSetChatInputEnabled(true)
 				elseif autotagtoggle == "{ff0000}Выкл" then
 					wait(250)
 					sampSetCursorMode(0)
 					sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-					sampSetChatInputText("/r "..info.Info.tag.." | Доктор "..rsurname..", ")
+					sampSetChatInputText("/r "..info.Info.tag.." | ")
 					sampSetChatInputEnabled(true)
 				end
 			end
