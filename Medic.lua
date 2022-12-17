@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.7.4")
+script_version("1.7.5")
 local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
@@ -48,6 +48,7 @@ Settings = {
 	ChatFontFlag = 13,
 	ChatToggle = true,
 	ChatAnsToggle = true,
+	AutoTag = true,
 },
 })
 if setcfg.load(nil, "MedicSettings") == nil then setcfg.save(set, "MedicSettings") end
@@ -101,7 +102,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.4", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.5", -1)
 
 	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
 	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
@@ -120,6 +121,18 @@ function main()
 	while true do
 		wait(0)
 
+		if set.Settings.AutoTag == true then
+			autotagtoggle = "{33bf00}Вкл"
+		elseif set.Settings.AutoTag == false then
+			autotagtoggle = "{ff0000}Выкл"
+		end
+
+		if autotagtoggle == "{33bf00}Вкл" then
+			sampRegisterChatCommand("r", function(tmsg) sampSendChat("/r "..info.Info.tag.." | "..tmsg) end)
+		elseif autotagtoggle == "{ff0000}Выкл" then
+			sampUnregisterChatCommand("r", function(tmsg) sampSendChat("/r "..tmsg) end)
+		end
+
 		if wasKeyPressed(vkeys.VK_INSERT) then -- активация по нажатию клавиши X
 			main_window_state.v = not main_window_state.v -- переключаем статус активности окна, не забываем про .v
 		end
@@ -130,7 +143,7 @@ function main()
 			ChatToggleText = "{33bf00}Вкл"
 			render_chat()
 		else 
-			ChatToggleText = "{ff0000}Выкл"
+			ChatToggleText = "{ff0000}Выкл"		
 		end
 		if set.Settings.zptoggle then
 			ZpToggleText = "{33bf00}Вкл"
@@ -326,6 +339,13 @@ function main()
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
+				rtext = "АвтоТэг в рацию "..autotagtoggle
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+					set.Settings.AutoTag = not set.Settings.AutoTag
+					setcfg.save(set, "MedicSettings")
+				end
+
+				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Размер: {FFFFFF}"..set.Settings.FontSize
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					sampShowDialog(6597, "Укажите нужный размер", "Укажите размер:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
@@ -438,23 +458,42 @@ function main()
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 					rtext = "Занять регистратуру"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
-						wait(250)
-						sampSetCursorMode(0)
-						sampSendChat("/seeme говорит в рацию")
-						wait(0)
-						sampSetChatInputText("/r "..info.Info.tag.." | Занимаю регистратуру "..info.Info.reg.."")
-						sampSetChatInputEnabled(true)
+						if autotagtoggle == "{33bf00}Вкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme говорит в рацию")
+							wait(0)
+							sampSetChatInputText("/r Занимаю регистратуру "..info.Info.reg.."")
+							sampSetChatInputEnabled(true)
+						elseif autotagtoggle == "{ff0000}Выкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme говорит в рацию")
+							wait(0)
+							sampSetChatInputText("/r "..info.Info.tag.." | Занимаю регистратуру "..info.Info.reg.."")
+							sampSetChatInputEnabled(true)
+						end
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 					rtext = "Покинуть регистратуру"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
-						wait(250)
-						sampSetCursorMode(0)
-						sampSendChat("/seeme говорит в рацию")
-						wait(0)
-						sampSetChatInputText("/r "..info.Info.tag.." | Покидаю регистратуру "..info.Info.reg.."")
-						sampSetChatInputEnabled(true)
+						if autotagtoggle == "{33bf00}Вкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme говорит в рацию")
+							wait(0)
+							sampSetChatInputText("/r Покидаю регистратуру "..info.Info.reg.."")
+							sampSetChatInputEnabled(true)
+						elseif autotagtoggle == "{ff0000}Выкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme говорит в рацию")
+							wait(0)
+							sampSetChatInputText("/r "..info.Info.tag.." | Покидаю регистратуру "..info.Info.reg.."")
+							sampSetChatInputEnabled(true)
+						end
+						
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
@@ -491,44 +530,80 @@ function main()
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 					rtext = "С регистратуры"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
-						wait(250)
-						sampSetCursorMode(0)
-						sampSendChat("/seeme делает доклад в рацию")
-						wait(1500)
-						sampSetChatInputText("/r "..info.Info.tag.." | Регистратура: "..info.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
-						sampSetChatInputEnabled(true)
+						if autotagtoggle == "{33bf00}Вкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme делает доклад в рацию")
+							wait(1500)
+							sampSetChatInputText("/r Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+							sampSetChatInputEnabled(true)
+						elseif autotagtoggle == "{ff0000}Выкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme делает доклад в рацию")
+							wait(1500)
+							sampSetChatInputText("/r Регистратура: "..info.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+							sampSetChatInputEnabled(true)
+						end
+
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 					rtext = "С поста / с патруля"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
-						wait(250)
-						sampSetCursorMode(0)
-						sampSendChat("/seeme делает доклад в рацию")
-						wait(1500)
-						sampSetChatInputText("/r "..info.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Бак: | Напарник: -")
-						sampSetChatInputEnabled(true)
+						if autotagtoggle == "{33bf00}Вкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme делает доклад в рацию")
+							wait(1500)
+							sampSetChatInputText("/r "..location.." | Осмотрено: "..osmot.." | Бак: | Напарник: -")
+							sampSetChatInputEnabled(true)
+						elseif autotagtoggle == "{ff0000}Выкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme делает доклад в рацию")
+							wait(1500)
+							sampSetChatInputText("/r Регистратура: "..info.Info.reg.." | "..location.." | Осмотрено: "..osmot.." | Бак: | Напарник: -")
+							sampSetChatInputEnabled(true)
+						end
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 					rtext = "С военкомата"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
-						wait(250)
-						sampSetCursorMode(0)
-						sampSendChat("/seeme делает доклад в рацию")
-						wait(1500)
-						sampSetChatInputText("/r "..info.Info.tag.." | Военкомат:  | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
-						sampSetChatInputEnabled(true)
+						if autotagtoggle == "{33bf00}Вкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme делает доклад в рацию")
+							wait(1500)
+							sampSetChatInputText("/r Военкомат:  | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+							sampSetChatInputEnabled(true)
+						elseif autotagtoggle == "{ff0000}Выкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme делает доклад в рацию")
+							wait(1500)
+							sampSetChatInputText("/r Регистратура: "..info.Info.reg.." | Военкомат:  | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+							sampSetChatInputEnabled(true)
+						end
 					end
 
 					Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 					rtext = "Принять вызов"
 					if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y + 20, 0xFF858585, 0xFFFFFFFF) then
-						wait(250)
-						sampSetCursorMode(0)
-						sampSendChat("/seeme делает доклад в рацию")
-						wait(1500)
-						sampSendChat("/r "..info.Info.tag.." | Принял"..a.." вызов ")
+						if autotagtoggle == "{33bf00}Вкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme делает доклад в рацию")
+							wait(1500)
+							sampSendChat("/r Принял"..a.." вызов ")
+						elseif autotagtoggle == "{ff0000}Выкл" then
+							wait(250)
+							sampSetCursorMode(0)
+							sampSendChat("/seeme делает доклад в рацию")
+							wait(1500)
+							sampSendChat("/r "..info.Info.tag.." | Принял"..a.." вызов ")
+						end
 					end
 				end)
 			end
@@ -536,11 +611,19 @@ function main()
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 			rtext = "/r"
 			if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y + 20, 0xFF8D8DFF, 0xFF8D8DFF) then
-				wait(250)
-				sampSetCursorMode(0)
-				sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-				sampSetChatInputText("/r "..info.Info.tag.." | ")
-				sampSetChatInputEnabled(true)
+				if autotagtoggle == "{33bf00}Вкл" then
+					wait(250)
+					sampSetCursorMode(0)
+					sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+					sampSetChatInputText("/r ")
+					sampSetChatInputEnabled(true)
+				elseif autotagtoggle == "{ff0000}Выкл" then
+					wait(250)
+					sampSetCursorMode(0)
+					sampSendChat("/seeme делает доклад в рацию")
+					wait(1500)
+					sampSendChat("/r "..info.Info.tag.." | ")
+				end
 			end
 
 			Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
@@ -1509,8 +1592,13 @@ function render_chat()
 					ChatAnsToggle = "Вкл"
 					if ClickTheText(chatfont, chat[i], set.Settings.ChatPosX, y, 0xFF8D8DFF, 0xFFffffff) then
 						local rname, rsurname = string.match(rnick, "(.+)_(.+)")
-						sampSetChatInputText("/r "..info.Info.tag.." | Доктор "..rsurname..", ")
-						sampSetChatInputEnabled(true)
+						if autotagtoggle == "{33bf00}Вкл" then
+							sampSetChatInputText("/r Доктор "..rsurname..", ")
+							sampSetChatInputEnabled(true)
+						elseif autotagtoggle == "{ff0000}Выкл" then
+							sampSetChatInputText("/r "..info.Info.tag.." | Доктор "..rsurname..", ")
+							sampSetChatInputEnabled(true)
+						end
 					end
 				elseif set.Settings.ChatAnsToggle == false then
 					ChatAnsToggle = "Выкл"
@@ -1549,11 +1637,19 @@ function render_chat()
 			x = x + renderGetFontDrawTextLength(fontChatPosButton, chatsizeminustext) * 2
 			rtext = "/r"
 			if ClickTheText(fontChatPosButton, rtext, x, y, 0xFF969696, 0xFFFFFFFF) then
-				wait(250)
-				sampSetCursorMode(0)
-				sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-				sampSetChatInputText("/r "..info.Info.tag.." | ")
-				sampSetChatInputEnabled(true)
+				if autotagtoggle == "{33bf00}Вкл" then
+					wait(250)
+					sampSetCursorMode(0)
+					sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+					sampSetChatInputText("/r Доктор "..rsurname..", ")
+					sampSetChatInputEnabled(true)
+				elseif autotagtoggle == "{ff0000}Выкл" then
+					wait(250)
+					sampSetCursorMode(0)
+					sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+					sampSetChatInputText("/r "..info.Info.tag.." | Доктор "..rsurname..", ")
+					sampSetChatInputEnabled(true)
+				end
 			end
 
 			x = x + renderGetFontDrawTextLength(fontChatPosButton, rtext) * 2
@@ -1731,16 +1827,6 @@ function sampev.onServerMessage(color, message)
 end
 
 
---[[function sampev.onSendCommand(message1)
-	if check_skin_local_player() then
-		if message1:find("/r .+") then
-			local msg1 = message1:match("/r (.+)")
-			sampSendChat("/r "..info.Info.tag.." | "..msg1.."")
-		end
-	end
-end]]
-
-
 toggle = false
 warn = false
 doklad = false
@@ -1768,15 +1854,30 @@ function timer(act)
 					for d,lu, hp, yu in pairs(timers_doklads, timers_dokladsoff) do
 						if doklad == false and time == lu then
 							if location == " " then
-								sampSetCursorMode(0)
-								sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-								sampSetChatInputText("/r "..info.Info.tag.." | Регистратура: "..info.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
-								sampSetChatInputEnabled(true)
+								if autotagtoggle == "{33bf00}Вкл" then
+									sampSetCursorMode(0)
+									sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+									sampSetChatInputText("/r Регистратура: "..info.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+									sampSetChatInputEnabled(true)
+								elseif autotagtoggle == "{ff0000}Выкл" then
+									sampSetCursorMode(0)
+									sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+									sampSetChatInputText("/r "..info.Info.tag.." | Регистратура: "..info.Info.reg.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+									sampSetChatInputEnabled(true)
+								end
+
 							else
-								sampSetCursorMode(0)
-								sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
-								sampSetChatInputText("/r "..info.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
-								sampSetChatInputEnabled(true)
+								if autotagtoggle == "{33bf00}Вкл" then
+									sampSetCursorMode(0)
+									sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+									sampSetChatInputText("/r "..location.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+									sampSetChatInputEnabled(true)
+								elseif autotagtoggle == "{ff0000}Выкл" then
+									sampSetCursorMode(0)
+									sampSendChat("/seeme пробормотал"..a.." что-то в рацию")
+									sampSetChatInputText("/r "..info.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Мед.карт: "..medc.." | Напарник: -")
+									sampSetChatInputEnabled(true)
+								end
 							end
 							doklad = true
 						elseif time == yu then
