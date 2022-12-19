@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.7.5.2")
+script_version("1.7.6")
 local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
@@ -49,6 +49,7 @@ Settings = {
 	ChatToggle = true,
 	ChatAnsToggle = true,
 	AutoTag = true,
+	AutoClist = true,
 },
 })
 if setcfg.load(nil, "MedicSettings") == nil then setcfg.save(set, "MedicSettings") end
@@ -92,7 +93,7 @@ function imgui.OnDrawFrame()
 		end
 	  	imgui.End()
 	end
-  end
+end
 
 function main()
 	if not isSampLoaded() or not isSampfuncsLoaded() then return end
@@ -102,7 +103,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.5.2", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.6", -1)
 
 	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
 	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
@@ -120,6 +121,12 @@ function main()
 
 	while true do
 		wait(0)
+		if set.Settings.AutoClist == true then
+			autoclisttoggle = "{33bf00}Вкл"
+			autoclist()
+		elseif set.Settings.AutoClist == false then
+			autoclisttoggle = "{ff0000}Выкл"
+		end
 
 		if set.Settings.AutoTag == true then
 			autotagtoggle = "{33bf00}Вкл"
@@ -259,7 +266,7 @@ function main()
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "Бейдж: {FFFFFF}"..info.Info.clist
+				rtext = "Clist: {FFFFFF}"..info.Info.clist
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFF858585, 0xFFFFFFFF) then
 					sampShowDialog(6411, "Укажите ваш бейдж", "Ваш бейдж:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
@@ -339,9 +346,16 @@ function main()
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
-				rtext = "АвтоТэг в рацию "..autotagtoggle
+				rtext = "AutoTag "..autotagtoggle
 				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					set.Settings.AutoTag = not set.Settings.AutoTag
+					setcfg.save(set, "MedicSettings")
+				end
+
+				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
+				rtext = "AutoClist "..autoclisttoggle
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+					set.Settings.AutoClist = not set.Settings.AutoClist
 					setcfg.save(set, "MedicSettings")
 				end
 
@@ -1564,6 +1578,17 @@ elseif info.Info.sex == false then
 	la = "лa"
 end
 
+MedicClists = { 2863857664, 2857434774, 2863857664, 2853039615, 2868880928, 2853375487, 2860620717 }
+function autoclist()
+	if check_skin_local_player() then
+		local _, myid = sampGetPlayerIdByCharHandle(PLAYER_PED)
+		local myclist = sampGetPlayerColor(myid)
+		while myclist == 2862896983 do
+			sampSendChat("/clist "..info.Info.clist)
+			break
+		end
+	end
+end
 
 function zp()
 	if check_skin_local_player() then
@@ -1801,6 +1826,13 @@ function sampev.onServerMessage(color, message)
 	end
 	if message:match("Сеанс лечения от болезни .+") then
 		osmot = osmot + 1
+	end
+
+	if message:find(' Рабочий день начат') then
+		return false
+	end
+	if message:find(' Рабочий день окончен') then
+		return false
 	end
 
 	if set.Settings.ChatToggle then
