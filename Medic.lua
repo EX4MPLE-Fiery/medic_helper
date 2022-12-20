@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.7.6.1")
+script_version("1.7.6.2")
 local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
@@ -103,7 +103,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.6.1", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.6.2", -1)
 
 	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
 	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
@@ -314,54 +314,54 @@ function main()
 			if menu_settings then
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Автодоклады "..toggletext
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					toggle = not toggle
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Зарплата "..ZpToggleText
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					set.Settings.zptoggle = not set.Settings.zptoggle
 					setcfg.save(set, "MedicSettings")
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "HUD "..hudtoggletext
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					set.Settings.hudtoggle = not set.Settings.hudtoggle
 					setcfg.save(set, "MedicSettings")
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Chat "..ChatToggleText
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					set.Settings.ChatToggle = not set.Settings.ChatToggle
 					setcfg.save(set, "MedicSettings")
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Клавиша: "..info.Info.Key
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "AutoTag "..autotagtoggle
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					set.Settings.AutoTag = not set.Settings.AutoTag
 					setcfg.save(set, "MedicSettings")
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "AutoClist "..autoclisttoggle
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")) - 20, Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					set.Settings.AutoClist = not set.Settings.AutoClist
 					setcfg.save(set, "MedicSettings")
 				end
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Размер: {FFFFFF}"..set.Settings.FontSize
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")) - 20, Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					sampShowDialog(6597, "Укажите нужный размер", "Укажите размер:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
 				result7, button7, _, FontSize = sampHasDialogRespond(6597)
@@ -381,7 +381,7 @@ function main()
 
 				Y = ((Y + renderGetFontDrawHeight(font)) + (renderGetFontDrawHeight(font) / 10))
 				rtext = "Flag: {FFFFFF}"..set.Settings.FontFlag
-				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ")), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
+				if ClickTheText(font, rtext, (X - renderGetFontDrawTextLength(font, rtext.."  ") - 20), Y, 0xFFFFFFFF, 0xFFFFFFFF) then
 					sampShowDialog(6598, "Укажите нужный размер", "Укажите размер:", "ОК", "Отмена", DIALOG_STYLE_INPUT)
 				end
 				result8, button8, _, FontFlag = sampHasDialogRespond(6598)
