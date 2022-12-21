@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.7.6.3")
+script_version("1.7.6.4")
 local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
@@ -103,7 +103,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.6.3", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.7.6.4", -1)
 
 	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
 	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
@@ -577,7 +577,7 @@ function main()
 							sampSetCursorMode(0)
 							sampSendChat("/seeme делает доклад в рацию")
 							wait(1500)
-							sampSetChatInputText("/r "..info.Info.tag.." | Регистратура: "..info.Info.reg.." | Осмотрено: "..osmot.." | Бак: | Напарник: -")
+							sampSetChatInputText("/r "..info.Info.tag.." | "..location.." | Осмотрено: "..osmot.." | Бак: | Напарник: -")
 							sampSetChatInputEnabled(true)
 						end
 					end
@@ -2113,3 +2113,4 @@ function JustText(font, text, posX, posY, color, colorA)
 	local curX, curY = getCursorPos()
 	renderFontDrawText(font, text, posX, posY, colorA)
 end
+
