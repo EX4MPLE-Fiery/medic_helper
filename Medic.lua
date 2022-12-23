@@ -1,6 +1,6 @@
 script_name('Medic')
 script_authors("Galileo_Galilei, Serhiy_Rubin")
-script_version("1.8.1")
+script_version("1.8.2")
 local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
@@ -434,7 +434,7 @@ function main()
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
 
-	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.8.1", -1)
+	sampAddChatMessage("{ff263c}[Medic] {ffffff}Скрипт успешно загружен. {fc0303}Версия: 1.8.2", -1)
 
 	chatfont = renderCreateFont(set.Settings.FontName, set.Settings.ChatFontSize, set.Settings.FontFlag)
 	font = renderCreateFont(set.Settings.FontName, set.Settings.FontSize, set.Settings.FontFlag)
@@ -453,12 +453,12 @@ function main()
 	sampRegisterChatCommand("medic", function()
 		set.Settings.Enable = not set.Settings.Enable
 		setcfg.save(set, "MedicSettings")
+		thisScript():unload()
 	end)
 
 	while true do
 		wait(0)
 
-		if set.Settings.Enable then
 			if set.Settings.AutoClist then
 				autoclist()
 			end
@@ -1712,7 +1712,7 @@ function main()
 				end
 			end
 	
-		end
+
 	end
 end
 
