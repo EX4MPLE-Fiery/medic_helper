@@ -5,17 +5,16 @@ local setcfg, ffi = require 'inicfg', require("ffi")
 local infocfg = require 'inicfg'
 local sampev = require "lib.samp.events"
 local wm = require('windows.message')
-local vkeys = require 'lib.medic.vkeys'
-local encoding = require "encoding"
-local imgui = require 'lib.imgui'
+local vkeys = require 'Medic.vkeys'
+local encoding = require "Medic.encoding"
+local imgui = require 'Medic.imgui'
 local myinfo_window = imgui.ImBool(false)
 local settings_window = imgui.ImBool(false)
-require "lib.moonloader"
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
-local rkeys = require 'lib.rkeys'
-imgui.HotKey = require('imgui_addons').HotKey
-imgui.ToggleButton = require('imgui_addons').ToggleButton
+local rkeys = require 'Medic.rkeys'
+imgui.HotKey = require('Medic.imgui_addons').HotKey
+imgui.ToggleButton = require('Medic.imgui_addons').ToggleButton
 
 local r = { mouse = false, ShowClients = false, ShowCMD = false, id = 0, nick = "", dir = "", dialog = 0 }
 local enable_autoupdate = true -- false to disable auto-update + disable sending initial telemetry (server, moonloader version, script version, samp nickname, virtual volume serial number)
